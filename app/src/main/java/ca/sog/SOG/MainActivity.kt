@@ -21,13 +21,10 @@ class MainActivity : AppCompatActivity() {
         //textViewResult = findViewById(R.id.text_view_result)
         val client = OkHttpClient()
         val refresh_token = "21MjvELCdvA_XishUVIBemwnr1Tl5saT0" //TODO hardcode
-        val request = Request.Builder()
-            .url("https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=" + refresh_token)
-            .build()
 
         //https://reqres.in/api/users?page=2
 
-        val refresh_callback = object : Callback {
+        val refreshCallback = object : Callback {
             //cannot not make http requests on mainthread
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
@@ -37,6 +34,7 @@ class MainActivity : AppCompatActivity() {
                 response.use {
                     if (response.isSuccessful) {
                         //val myResponse = response.body
+                        //TODO is this necessary
                         val jsonstr = response.body?.string() ?: "NULL"
                         val json: JSONObject = JSONObject(jsonstr)
                         accessToken = json.getString("access_token")
@@ -54,13 +52,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val accessTestCallback = object : Callback {
+        val refreshRequest = Request.Builder()
+            .url("https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=" + refresh_token)
+            .build()
+
+        client.newCall(refreshRequest).enqueue(refreshCallback)
+
+        val accessRequest = Request.Builder().url(apiServer + "v1/accounts")
+            .header("Authorization", "Bearer " + accessToken)
+            .build()
+
+        val accessCallback = object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
             }
 
             override fun onResponse(call: Call, response: Response) {
                 //val myResponse = response.body
+                //TODO look responsebody type and access json fields
                 val jsonstr = response.body?.string() ?: "NULL"
                 val json: JSONObject = JSONObject(jsonstr)
                 val account = json.getJSONArray("accounts").getJSONObject(0)
@@ -77,13 +86,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        client.newCall(request).enqueue(refresh_callback)
-
-        val accessTestBuilder = Request.Builder().url(apiServer + "v1/accounts")
-            .header("Authorization", "Bearer " + accessToken)
-            .build()
-
-        client.newCall(accessTestBuilder).enqueue(accessTestCallback)
+        client.newCall(accessRequest).enqueue(accessCallback)
 
     }
 
