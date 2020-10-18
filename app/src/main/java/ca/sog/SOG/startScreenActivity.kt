@@ -3,24 +3,24 @@ package ca.sog.SOG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebView
-import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.*
-import okio.IOException
-import org.json.JSONObject
 
-class MainActivity : AppCompatActivity() {
+class startScreenActivity : AppCompatActivity() {
 
     //private lateinit var textViewResult: TextView
 
     var accessToken: String = ""
     var apiServer: String = ""
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_start_screen)
 
         val myWebView: WebView = findViewById(R.id.webview)
         myWebView.loadUrl("https://login.questrade.com/oauth2/authorize?client_id=y4OydeHFkQTSsD1FoQBW-EOPsABwgQ&response_type=token&redirect_uri=https://www.example.com")
+        myWebView.webViewClient = GetTokenWebViewClient(this)
+
 
         //textViewResult = findViewById(R.id.text_view_result)
 //        val client = OkHttpClient()
