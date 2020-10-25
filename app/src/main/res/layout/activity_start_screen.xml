@@ -12,36 +12,4 @@
         android:layout_height="match_parent"
         />
 
-    <TextView
-        android:id="@+id/access_token"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Access Token"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/acc_type"
-        android:text="Account Type"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/access_token"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/acc_num"
-        android:text="Account Number"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/acc_type"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

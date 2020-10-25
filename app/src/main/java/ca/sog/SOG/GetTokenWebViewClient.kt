@@ -9,26 +9,19 @@ import android.webkit.WebViewClient
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 
-class GetTokenWebViewClient(val context: Context) : WebViewClient() { //Everytime we init this we need to give it "this"
+class GetTokenWebViewClient(private val context: Context) : WebViewClient() {
 
-    override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean { //Starts activity
+    override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
         if (Uri.parse(url).host != "www.example.com") {
-            // This is my web site, so do not override; let my WebView load the page
+            // The redirect from quest trade is a dummy url www.example.com. If that is not the case, something is wrong
             return false
         }
-        // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
-
-        val tokenUrl = Uri.parse(url)
-        val startAppIntent = Intent(context, LoggedInActivity::class.java).apply{
-            putExtra("tokenURL", tokenUrl)
+        // quest trade will redirect us back to www.example.com/params, we will needs to params to finish the auth
+        val startLoggedInActivityIntent = Intent(context, LoggedInActivity::class.java).apply{
+            putExtra("tokenURL", Uri.parse(url))
         }
-        val emptyBundle : Bundle = Bundle()
+        startActivity(context, startLoggedInActivityIntent, Bundle())
 
-        startActivity(context, startAppIntent, emptyBundle) //Immediately starts LoggedInActivity upon finding proper URL
-
-//        Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-//            ContextCompat.startActivity(this)
-//        }
-        return true //If true returned, close startScreenActivity
+        return true
     }
 }
