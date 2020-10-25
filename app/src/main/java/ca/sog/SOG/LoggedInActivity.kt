@@ -1,14 +1,17 @@
 package ca.sog.SOG
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_logged_in.*
+
 
 class LoggedInActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //TODO: parse url from getextra here
+        val intent = intent
+        val url = intent.extras?.getString("tokenURL")
+        url_text.text = "hello world"
+
     }
 }
