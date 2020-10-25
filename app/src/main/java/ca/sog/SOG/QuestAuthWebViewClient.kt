@@ -6,10 +6,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 
-class GetTokenWebViewClient(private val context: Context) : WebViewClient() {
+class QuestAuthWebViewClient(private val context: Context) : WebViewClient() {
 
     override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
         if (Uri.parse(url).host != "www.example.com") {

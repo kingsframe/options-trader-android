@@ -14,7 +14,7 @@ class startScreenActivity : AppCompatActivity() {
         questTradeAuthWebView.loadUrl(
             "https://login.questrade.com/oauth2/authorize?client_id=y4OydeHFkQTSsD1FoQBW-EOPsABwgQ&response_type=token&redirect_uri=https://www.example.com"
         )
-        questTradeAuthWebView.webViewClient = GetTokenWebViewClient(this)
+        questTradeAuthWebView.webViewClient = QuestAuthWebViewClient(this)
     }
 
 }
