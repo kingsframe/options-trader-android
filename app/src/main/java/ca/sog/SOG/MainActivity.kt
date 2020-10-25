@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebView
 
-class startScreenActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start_screen)
+        setContentView(R.layout.activity_main)
 
         val questTradeAuthWebView: WebView = findViewById(R.id.webview)
         questTradeAuthWebView.webViewClient = QuestAuthWebViewClient(this)
