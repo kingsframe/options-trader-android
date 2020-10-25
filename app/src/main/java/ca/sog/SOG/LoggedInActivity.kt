@@ -9,6 +9,6 @@ class LoggedInActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        //TODO: parse url from getextra here
     }
 }
