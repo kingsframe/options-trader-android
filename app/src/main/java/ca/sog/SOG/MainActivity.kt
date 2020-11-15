@@ -1,20 +1,24 @@
 package ca.sog.SOG
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.webkit.WebView
+import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var loginButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val questTradeAuthWebView: WebView = findViewById(R.id.webview)
-        questTradeAuthWebView.webViewClient = QuestAuthWebViewClient(this)
-        questTradeAuthWebView.loadUrl(
-            "https://login.questrade.com/oauth2/authorize?client_id=y4OydeHFkQTSsD1FoQBW-EOPsABwgQ&response_type=token&redirect_uri=https://www.example.com"
-        )
+        loginButton = findViewById(R.id.LogInButton)
+
+        loginButton.setOnClickListener{
+            // Handler code here.
+            val intent = Intent(this, StartLogInActivity::class.java)
+            startActivity(intent);
+        }
     }
 
 }
