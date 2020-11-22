@@ -32,9 +32,9 @@ class QuestAuthWebViewClient(private val context: Context) : WebViewClient() {
         // quest trade will redirect us back to www.example.com/params, we will needs to params to finish the auth
         // url should look like
         // https://www.example.com/#access_token=...&refresh_token=...&token_type= Bearer&expires_in=1800&api_server=https://api01.iq.questrade.com/
+        val tokens = Token(url ?: ""); //url is nullable, give empty str if null
 
         var parts = parseToken(url)
-
         var access_token = parseEqual(parts?.get(1))
         var refresh_token = parseEqual(parts?.get(2))
         var token_type = parseEqual(parts?.get(3))
