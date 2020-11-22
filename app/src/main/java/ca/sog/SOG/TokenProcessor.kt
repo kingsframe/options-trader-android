@@ -1,6 +1,6 @@
 package ca.sog.SOG
 
-class Token(val url: String) { //initializer list
+class TokenProcessor(val url: String?) { //initializer list
     //Use obj.variable to grab these
     lateinit var accessToken: String
     lateinit var refreshToken: String
@@ -26,13 +26,15 @@ class Token(val url: String) { //initializer list
 
     fun parseToken(){
         // https://www.example.com/#access_token=...&refresh_token=...&token_type= Bearer&expires_in=1800&api_server=https://api01.iq.questrade.com/
-        val parts = url.split("#", "&") //Throw away first ele
+        val parts = url?.split("#", "&") //Throw away first ele
         val partsList = mutableListOf<String>()
-        for (part in parts){
-            val tokenParts = part.split("=")
-            if(tokenParts.size > 1) { //Don't add the "www.example.com"
-                val token = tokenParts.get(1)
-                partsList.add(token)
+        if (parts != null) {
+            for (part in parts){
+                val tokenParts = part.split("=")
+                if(tokenParts.size > 1) { //Don't add the "www.example.com"
+                    val token = tokenParts.get(1)
+                    partsList.add(token)
+                }
             }
         }
 
