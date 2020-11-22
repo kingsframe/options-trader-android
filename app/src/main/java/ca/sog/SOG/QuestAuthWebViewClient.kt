@@ -41,14 +41,18 @@ class QuestAuthWebViewClient(private val context: Context) : WebViewClient() {
         var expires_in = parseEqual(parts?.get(4))
         var api_server = parseEqual(parts?.get(5))
 
+        val tokenBundle = Bundle()
+        tokenBundle.putStringArrayList("tokens", tokens.getArray())
 
-        val startLoggedInActivityIntent = Intent(context, LoggedInActivity::class.java).apply{
-            putExtra("access_token", access_token)
-            putExtra("refresh_token", refresh_token)
-            putExtra("token_type", token_type)
-            putExtra("expires_in", expires_in)
-            putExtra("api_server", api_server)
-        }
+        val startLoggedInActivityIntent = Intent(context, LoggedInActivity::class.java)
+        startLoggedInActivityIntent.putExtras(tokenBundle)
+
+//            putExtra("access_token", access_token)
+//            putExtra("refresh_token", refresh_token)
+//            putExtra("token_type", token_type)
+//            putExtra("expires_in", expires_in)
+//            putExtra("api_server", api_server)
+
         startActivity(context, startLoggedInActivityIntent, Bundle())
 
         return true

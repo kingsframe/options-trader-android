@@ -8,12 +8,16 @@ class LoggedInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_logged_in)
-        val intent = intent
-        val access_token = intent.extras?.getString("access_token")
-        val refresh_token = intent.extras?.getString("refresh_token")
-        val token_type = intent.extras?.getString("token_type")
-        val expires_in = intent.extras?.getString("expires_in")
-        val api_server = intent.extras?.getString("api_server")
+
+        val tokenBundle = intent.extras
+        val partsList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
+
+        //val intent = intent
+        val access_token = partsList[0]
+        val refresh_token = partsList[1]
+        val token_type = partsList[2]
+        val expires_in = partsList[3]
+        val api_server = partsList[4]
         textView.text = "accesstoken = " + access_token + "  rt=" + refresh_token + token_type + " expire_in= " + expires_in + "  api_serv = " + api_server
     }
 }

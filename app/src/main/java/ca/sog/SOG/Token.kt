@@ -5,12 +5,24 @@ class Token(val url: String) { //initializer list
     lateinit var accessToken: String
     lateinit var refreshToken: String
     lateinit var tokenType: String
-    var expiresIn : Int = 0;
+    lateinit var expiresIn: String
     lateinit var apiServer: String
 
     init{ //Variables and secondary ctors are ran IN ORDER! Must put variable inits first!
         parseToken()
     } //ctor
+
+    //Need to make an "onResumeToken" to instantiate in new activity
+
+    fun getArray(): ArrayList<String> {
+        val partsList = ArrayList<String>()
+        partsList.add(accessToken)
+        partsList.add(refreshToken)
+        partsList.add(tokenType)
+        partsList.add(expiresIn)
+        partsList.add(apiServer)
+        return partsList
+    }
 
     fun parseToken(){
         // https://www.example.com/#access_token=...&refresh_token=...&token_type= Bearer&expires_in=1800&api_server=https://api01.iq.questrade.com/
@@ -27,7 +39,7 @@ class Token(val url: String) { //initializer list
         accessToken = partsList[0]
         refreshToken = partsList[1]
         tokenType = partsList[2]
-        expiresIn = partsList[3].toInt()
+        expiresIn = partsList[3]
         apiServer = partsList[4]
 
     }
