@@ -14,6 +14,6 @@ class LoggedInActivity : AppCompatActivity() {
         val token_type = intent.extras?.getString("token_type")
         val expires_in = intent.extras?.getString("expires_in")
         val api_server = intent.extras?.getString("api_server")
-        textView.text = access_token + "     " + refresh_token + token_type + "     " + expires_in + "    " + api_server
+        textView.text = "accesstoken = " + access_token + "  rt=" + refresh_token + token_type + " expire_in= " + expires_in + "  api_serv = " + api_server
     }
 }

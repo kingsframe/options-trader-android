@@ -17,6 +17,13 @@ class QuestAuthWebViewClient(private val context: Context) : WebViewClient() {
         return parts
     }
 
+
+    fun parseEqual (tokenWithName: String?) : String? {
+        var delimiter = "="
+        val parts = tokenWithName?.split(delimiter)
+        return parts?.get(1)
+    }
+
     override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
         if (Uri.parse(url).host != "www.example.com") {
             // The redirect from quest trade is a dummy url www.example.com. If that is not the case, continue
@@ -25,18 +32,14 @@ class QuestAuthWebViewClient(private val context: Context) : WebViewClient() {
         // quest trade will redirect us back to www.example.com/params, we will needs to params to finish the auth
         // url should look like
         // https://www.example.com/#access_token=...&refresh_token=...&token_type= Bearer&expires_in=1800&api_server=https://api01.iq.questrade.com/
-        //
-        // access_token=...&
-        // refresh_token=...&
-        // token_type= Bearer&
-        // expires_in=1800&
-        // api_server=https://api01.iq.questrade.com/
+
         var parts = parseToken(url)
-        var access_token = parts?.get(1)
-        var refresh_token = parts?.get(2)
-        var token_type = parts?.get(3)
-        var expires_in = parts?.get(4)
-        var api_server = parts?.get(5)
+
+        var access_token = parseEqual(parts?.get(1))
+        var refresh_token = parseEqual(parts?.get(2))
+        var token_type = parseEqual(parts?.get(3))
+        var expires_in = parseEqual(parts?.get(4))
+        var api_server = parseEqual(parts?.get(5))
 
 
         val startLoggedInActivityIntent = Intent(context, LoggedInActivity::class.java).apply{
@@ -50,4 +53,5 @@ class QuestAuthWebViewClient(private val context: Context) : WebViewClient() {
 
         return true
     }
+
 }
