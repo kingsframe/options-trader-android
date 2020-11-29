@@ -28,15 +28,33 @@ class LoggedInActivity : AppCompatActivity() {
 
         val client = OkHttpClient()
         val request = Request.Builder()
-                .url(api_server + "/v1/accounts")
+                .url(api_server + "v1/accounts")
                 .header("Authorization", "Bearer " + access_token)
                 .build()
-        try {
-            val response = client.newCall(request).execute()
-            textView.text = response.body.toString()
-        } catch (ex: Exception) {
-            textView.text = "Sorry Error fetch accounts info"
-        }
+//        try {
+//            val response = client.newCall(request).execute()
+//            textView.text = response.body.toString()
+//        } catch (ex: Exception) {
+//            textView.text = "Sorry Error fetch accounts info"
+//        }
+
+        client.newCall(request).enqueue(object : Callback {
+            //cannot not make http requests on mainthread
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    if (response.isSuccessful) {
+                        val myResponse = response.body
+                        val jsonstr = myResponse?.string() ?: "NULL"
+
+                        textView.text = jsonstr
+                    }
+                }
+            }
+        })
 
 
 
