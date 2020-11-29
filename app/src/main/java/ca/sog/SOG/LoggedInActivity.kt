@@ -58,7 +58,8 @@ class LoggedInActivity : AppCompatActivity() {
             }
         })
 
-        val accountJson = json.getJSONArray("accounts").getJSONObject(0)
+        //Critical Section problem: Options for synchronicity: Coroutine (execute in coroutine, add sempahores), Retrofit, Volley
+        val accountJson = json.getJSONArray("accounts").getJSONObject(0) //User may have more than 1 account! want to select them all here
         val number = accountJson.getString("number")
         val userID = json.getInt("userId").toString()
         textView.text = number
