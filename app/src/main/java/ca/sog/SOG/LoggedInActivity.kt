@@ -26,18 +26,11 @@ class LoggedInActivity : AppCompatActivity() {
 //        GET /v1/accounts HTTP/1.1
 //        Host: https://api01.iq.questrade.com
 //        Authorization: Bearer C3lTUKuNQrAAmSD/TPjuV/HI7aNrAwDp
-
         val client = OkHttpClient()
         val request = Request.Builder()
                 .url(api_server + "v1/accounts")
                 .header("Authorization", "Bearer " + access_token)
                 .build()
-//        try {
-//            val response = client.newCall(request).execute()
-//            textView.text = response.body.toString()
-//        } catch (ex: Exception) {
-//            textView.text = "Sorry Error fetch accounts info"
-//        }
 
         lateinit var json : JSONObject
         client.newCall(request).enqueue(object : Callback {
@@ -49,8 +42,8 @@ class LoggedInActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (response.isSuccessful) {
-                        val ResponseBody = response.body
-                        val jsonstr = ResponseBody?.string() ?: "NULL"
+                        val responseBody = response.body
+                        val jsonstr = responseBody?.string() ?: "NULL"
                         json = JSONObject(jsonstr)
                         //Can't run UI on network thread
                     }
