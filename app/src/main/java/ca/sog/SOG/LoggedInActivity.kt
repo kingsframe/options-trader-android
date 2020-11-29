@@ -5,6 +5,7 @@ import android.os.Bundle
 import okhttp3.*
 import okio.IOException
 import kotlinx.android.synthetic.main.activity_logged_in.*
+import org.json.JSONObject
 
 class LoggedInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +39,7 @@ class LoggedInActivity : AppCompatActivity() {
 //            textView.text = "Sorry Error fetch accounts info"
 //        }
 
+        lateinit var json : JSONObject
         client.newCall(request).enqueue(object : Callback {
             //cannot not make http requests on mainthread
             override fun onFailure(call: Call, e: IOException) {
@@ -47,14 +49,19 @@ class LoggedInActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (response.isSuccessful) {
-                        val myResponse = response.body
-                        val jsonstr = myResponse?.string() ?: "NULL"
-
-                        textView.text = jsonstr
+                        val ResponseBody = response.body
+                        val jsonstr = ResponseBody?.string() ?: "NULL"
+                        json = JSONObject(jsonstr)
+                        //Can't run UI on network thread
                     }
                 }
             }
         })
+
+        val accountJson = json.getJSONArray("accounts").getJSONObject(0)
+        val number = accountJson.getString("number")
+        val userID = json.getInt("userId").toString()
+        textView.text = number
 
 
 
