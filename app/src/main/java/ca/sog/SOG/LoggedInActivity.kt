@@ -18,5 +18,49 @@ class LoggedInActivity : AppCompatActivity() {
         val expires_in = tokensList[3]
         val api_server = tokensList[4]
         textView.text = "accesstoken = " + access_token + "  rt=" + refresh_token + token_type + " expire_in= " + expires_in + "  api_serv = " + api_server
+
+//         TODO make networking call to
+//        GET /v1/accounts HTTP/1.1
+//        Host: https://api01.iq.questrade.com
+//        Authorization: Bearer C3lTUKuNQrAAmSD/TPjuV/HI7aNrAwDp
+
+//        TODO decide either to make List UI for accounts response OR
+//        select the first account to call accounts/:id/positions
+//                {
+//                    "accounts": [
+//                    {
+//                        "type": "Margin"
+//                        "number":"26598145",
+//                        "status": "Active",
+//                        "isPrimary": true,
+//                        "isBilling": true,
+//                        "clientAccountType: "Individual"
+//                    },
+//                    ...
+//                    ],
+//                    "userId": 3000124
+//                }
+
+//        TODO on account selected, get account number and and call accounts/:id/positions
+//        GET https://api01.iq.questrade.com/v1/accounts/26598145/positions
+
+//        {
+//            "positions": [
+//            {
+//                "symbol": "THI.TO",
+//                "symbolId": 38738,
+//                "openQuantity": 100,
+//                "currentMarketValue": 6017,
+//                "currentPrice": 60.17,
+//                "averageEntryPrice": 60.23,
+//                "closedPnl": 0,
+//                "openPnl": -6,
+//                "totalCost": false,
+//                "isRealTime": "Individual",
+//                "isUnderReorg": false
+//            }
+//            ]
+//        }
+
     }
 }
