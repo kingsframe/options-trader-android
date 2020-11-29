@@ -32,7 +32,7 @@ class LoggedInActivity : AppCompatActivity() {
                 .header("Authorization", "Bearer " + access_token)
                 .build()
 
-        lateinit var json : JSONObject
+        lateinit var responseBodyJson : JSONObject
         client.newCall(request).enqueue(object : Callback {
             //cannot not make http requests on mainthread
             override fun onFailure(call: Call, e: IOException) {
@@ -43,8 +43,8 @@ class LoggedInActivity : AppCompatActivity() {
                 response.use {
                     if (response.isSuccessful) {
                         val responseBody = response.body
-                        val jsonstr = responseBody?.string() ?: "NULL"
-                        json = JSONObject(jsonstr)
+                        val responseBodyString = responseBody?.string() ?: "NULL"
+                        responseBodyJson = JSONObject(responseBodyString)
                         //Can't run UI on network thread
                     }
                 }
@@ -52,9 +52,9 @@ class LoggedInActivity : AppCompatActivity() {
         })
 
         //Critical Section problem: Options for synchronicity: Coroutine (execute in coroutine, add sempahores), Retrofit, Volley
-        val accountJson = json.getJSONArray("accounts").getJSONObject(0) //User may have more than 1 account! want to select them all here
+        val accountJson = responseBodyJson.getJSONArray("accounts").getJSONObject(0) //User may have more than 1 account! want to select them all here
         val number = accountJson.getString("number")
-        val userID = json.getInt("userId").toString()
+        val userID = responseBodyJson.getInt("userId").toString()
         textView.text = number
 
 
