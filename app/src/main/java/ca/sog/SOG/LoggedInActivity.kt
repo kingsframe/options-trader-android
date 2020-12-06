@@ -6,6 +6,7 @@ import okhttp3.*
 import okio.IOException
 import kotlinx.android.synthetic.main.activity_logged_in.*
 import org.json.JSONObject
+import kotlinx.coroutines.*
 
 class LoggedInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,20 +27,18 @@ class LoggedInActivity : AppCompatActivity() {
 //        GET /v1/accounts HTTP/1.1
 //        Host: https://api01.iq.questrade.com
 //        Authorization: Bearer C3lTUKuNQrAAmSD/TPjuV/HI7aNrAwDp
-        val client = OkHttpClient()
-        val request = Request.Builder()
-                .url(api_server + "v1/accounts")
-                .header("Authorization", "Bearer " + access_token)
-                .build()
+        GlobalScope.launch (Dispatchers.IO){
+            val client = OkHttpClient()
+            val request = Request.Builder()
+                    .url(api_server + "v1/accounts")
+                    .header("Authorization", "Bearer " + access_token)
+                    .build()
 
-        lateinit var responseBodyJson : JSONObject
-        client.newCall(request).enqueue(object : Callback {
-            //cannot not make http requests on mainthread
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
+            lateinit var responseBodyJson: JSONObject
+            client.newCall(request).execute().use{ response ->
+                //cannot not make http requests on mainthread
+                if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-            override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (response.isSuccessful) {
                         val responseBody = response.body
@@ -49,13 +48,17 @@ class LoggedInActivity : AppCompatActivity() {
                     }
                 }
             }
-        })
 
-        //Critical Section problem: Options for synchronicity: Coroutine (execute in coroutine, add sempahores), Retrofit, Volley
-        val accountJson = responseBodyJson.getJSONArray("accounts").getJSONObject(0) //User may have more than 1 account! want to select them all here
-        val number = accountJson.getString("number")
-        val userID = responseBodyJson.getInt("userId").toString()
-        textView.text = number
+            //Critical Section problem: Options for synchronicity: Coroutine (execute in coroutine, add sempahores), Retrofit, Volley
+            val accountJson = responseBodyJson.getJSONArray("accounts").getJSONObject(0) //User may have more than 1 account! want to select them all here
+            val number = accountJson.getString("number")
+            val userID = responseBodyJson.getInt("userId").toString()
+            launch(Dispatchers.Main){
+                textView.text = number
+            }
+        }
+
+
 
 
 
