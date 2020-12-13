@@ -2,6 +2,8 @@ package ca.sog.SOG
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import okhttp3.*
 import okio.IOException
 import kotlinx.android.synthetic.main.activity_logged_in.*
@@ -26,41 +28,38 @@ class LoggedInActivity : AppCompatActivity() {
 //        GET /v1/accounts HTTP/1.1
 //        Host: https://api01.iq.questrade.com
 //        Authorization: Bearer C3lTUKuNQrAAmSD/TPjuV/HI7aNrAwDp
-        val client = OkHttpClient()
-        val request = Request.Builder()
-                .url(api_server + "v1/accounts")
-                .header("Authorization", "Bearer " + access_token)
-                .build()
+//        val client = OkHttpClient()
+//        val request = Request.Builder()
+//                .url(api_server + "v1/accounts")
+//                .header("Authorization", "Bearer " + access_token)
+//                .build()
+//
+//        lateinit var responseBodyJson : JSONObject
+//        client.newCall(request).enqueue(object : Callback {
+//            //cannot not make http requests on mainthread
+//            override fun onFailure(call: Call, e: IOException) {
+//                e.printStackTrace()
+//            }
+//
+//            override fun onResponse(call: Call, response: Response) {
+//                response.use {
+//                    if (response.isSuccessful) {
+//                        val responseBody = response.body
+//                        val responseBodyString = responseBody?.string() ?: "NULL"
+//                        responseBodyJson = JSONObject(responseBodyString)
+//                        //Can't run UI on network thread
+//                    }
+//                }
+//            }
+//        })
+//
+//        //Critical Section problem: Options for synchronicity: Coroutine (execute in coroutine, add sempahores), Retrofit, Volley
+//        val accountJson = responseBodyJson.getJSONArray("accounts").getJSONObject(0) //User may have more than 1 account! want to select them all here
+//        val number = accountJson.getString("number")
+//        val userID = responseBodyJson.getInt("userId").toString()
+//        textView.text = number
 
-        lateinit var responseBodyJson : JSONObject
-        client.newCall(request).enqueue(object : Callback {
-            //cannot not make http requests on mainthread
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
 
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (response.isSuccessful) {
-                        val responseBody = response.body
-                        val responseBodyString = responseBody?.string() ?: "NULL"
-                        responseBodyJson = JSONObject(responseBodyString)
-                        //Can't run UI on network thread
-                    }
-                }
-            }
-        })
-
-        //Critical Section problem: Options for synchronicity: Coroutine (execute in coroutine, add sempahores), Retrofit, Volley
-        val accountJson = responseBodyJson.getJSONArray("accounts").getJSONObject(0) //User may have more than 1 account! want to select them all here
-        val number = accountJson.getString("number")
-        val userID = responseBodyJson.getInt("userId").toString()
-        textView.text = number
-
-
-
-//        TODO decide either to make List UI for accounts response OR
-//        select the first account to call accounts/:id/positions
 //                {
 //                    "accounts": [
 //                    {
@@ -75,6 +74,23 @@ class LoggedInActivity : AppCompatActivity() {
 //                    ],
 //                    "userId": 3000124
 //                }
+
+        var fakeAccountsList = mutableListOf(
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+        )
+
+        val accountsAdapter = AccountAdapter(fakeAccountsList)
+        val accountsRecyclerView: RecyclerView = findViewById(R.id.accountsRecycleView)
+        accountsRecyclerView.adapter = accountsAdapter
+        accountsRecyclerView.layoutManager = LinearLayoutManager(this)
+
 
 //        TODO on account selected, get account number and and call accounts/:id/positions
 //        GET https://api01.iq.questrade.com/v1/accounts/26598145/positions
