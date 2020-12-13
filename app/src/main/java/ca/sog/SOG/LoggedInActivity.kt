@@ -59,7 +59,6 @@ class LoggedInActivity : AppCompatActivity() {
                     }
                 }
             }
-
             //Grab accounts
 //            val userID = responseBodyJson.getInt("userId").toString() //outside of jsonArray
 //
@@ -82,9 +81,13 @@ class LoggedInActivity : AppCompatActivity() {
 
 
 
-//            launch(Dispatchers.Main){
-//                //textView.text = number
-//            }
+            launch(Dispatchers.Main){
+                //textView.text = number
+                val accountsAdapter = AccountAdapter(responseAccountsList)
+                val accountsRecyclerView: RecyclerView = findViewById(R.id.accountsRecycleView)
+                accountsRecyclerView.adapter = accountsAdapter
+                accountsRecyclerView.layoutManager = LinearLayoutManager(this@LoggedInActivity)
+            }
         }
 
 //                {
@@ -102,21 +105,21 @@ class LoggedInActivity : AppCompatActivity() {
 //                    "userId": 3000124
 //                }
 
-        var fakeAccountsList = mutableListOf(
-                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
-                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
-                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
-                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
-                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
-                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
-                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
-                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
-        )
-
-        val accountsAdapter = AccountAdapter(responseAccountsList)
-        val accountsRecyclerView: RecyclerView = findViewById(R.id.accountsRecycleView)
-        accountsRecyclerView.adapter = accountsAdapter
-        accountsRecyclerView.layoutManager = LinearLayoutManager(this)
+//        var fakeAccountsList = mutableListOf(
+//                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+//                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+//                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+//                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+//                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+//                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+//                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+//                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+//        )
+//
+//        val accountsAdapter = AccountAdapter(responseAccountsList)
+//        val accountsRecyclerView: RecyclerView = findViewById(R.id.accountsRecycleView)
+//        accountsRecyclerView.adapter = accountsAdapter
+//        accountsRecyclerView.layoutManager = LinearLayoutManager(this)
 
 
 //        TODO on account selected, get account number and and call accounts/:id/positions
