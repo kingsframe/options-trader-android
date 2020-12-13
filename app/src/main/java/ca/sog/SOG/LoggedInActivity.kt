@@ -10,6 +10,8 @@ import okio.IOException
 import kotlinx.android.synthetic.main.activity_logged_in.*
 import org.json.JSONObject
 import kotlinx.coroutines.*
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.mutableListOf as mutableListOf
 
 class LoggedInActivity : AppCompatActivity() {
@@ -31,6 +33,7 @@ class LoggedInActivity : AppCompatActivity() {
 //        GET /v1/accounts HTTP/1.1
 //        Host: https://api01.iq.questrade.com
 //        Authorization: Bearer C3lTUKuNQrAAmSD/TPjuV/HI7aNrAwDp
+        var responseAccountsList = mutableListOf<QuestAccount>()
         GlobalScope.launch (Dispatchers.IO){
             val client = OkHttpClient()
             val request = Request.Builder()
@@ -50,8 +53,9 @@ class LoggedInActivity : AppCompatActivity() {
                         responseBodyJson = JSONObject(responseBodyString)
                         val accountsJSONlist = responseBodyJson.getJSONArray("accounts") //User may have more than 1 account! want to select them all here
                         val gson = GsonBuilder().create()
-                        val responseAccountsList= gson.fromJson(accountsJSONlist.toString(), Array<QuestAccount>::class.java).toList()
-                        println(responseAccountsList)
+                        val responseAccountsArray = gson.fromJson(accountsJSONlist.toString(), Array<QuestAccount>::class.java)
+                        responseAccountsList = responseAccountsArray.toCollection(mutableListOf())
+                        //println(responseAccountsList)
                     }
                 }
             }
@@ -109,7 +113,7 @@ class LoggedInActivity : AppCompatActivity() {
                 QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
         )
 
-        val accountsAdapter = AccountAdapter(fakeAccountsList)
+        val accountsAdapter = AccountAdapter(responseAccountsList)
         val accountsRecyclerView: RecyclerView = findViewById(R.id.accountsRecycleView)
         accountsRecyclerView.adapter = accountsAdapter
         accountsRecyclerView.layoutManager = LinearLayoutManager(this)
