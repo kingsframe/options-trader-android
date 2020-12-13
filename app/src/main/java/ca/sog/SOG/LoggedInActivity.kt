@@ -9,6 +9,7 @@ import okio.IOException
 import kotlinx.android.synthetic.main.activity_logged_in.*
 import org.json.JSONObject
 import kotlinx.coroutines.*
+import kotlin.collections.mutableListOf as mutableListOf
 
 class LoggedInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,12 +52,30 @@ class LoggedInActivity : AppCompatActivity() {
                 }
             }
 
-            //Critical Section problem: Options for synchronicity: Coroutine (execute in coroutine, add sempahores), Retrofit, Volley
-            val accountJson = responseBodyJson.getJSONArray("accounts").getJSONObject(0) //User may have more than 1 account! want to select them all here
-            val number = accountJson.getString("number")
-            val userID = responseBodyJson.getInt("userId").toString()
+            //Grab accounts
+            val userID = responseBodyJson.getInt("userId").toString() //outside of jsonArray
+
+            val accountsList = mutableListOf<QuestAccount>()
+            val accountsJSONlist = responseBodyJson.getJSONArray("accounts") //User may have more than 1 account! want to select them all here
+            for (i in 0 until accountsJSONlist.length()){
+                val curr = accountsJSONlist.getJSONObject(i)
+
+                val type = curr.getString("type")
+                val number = curr.getString("number")
+                val status = curr.getString("status")
+                val isPrimary = curr.getBoolean("isPrimary")
+                val isBilling = curr.getBoolean("isBilling")
+                val clientAccountType = curr.getString("clientAccountType")
+
+                val newAcc = QuestAccount(type, number, status, isPrimary, isBilling, clientAccountType)
+                accountsList.add(newAcc)
+            }
+
+
+
+
             launch(Dispatchers.Main){
-                textView.text = number
+                //textView.text = number
             }
         }
 
