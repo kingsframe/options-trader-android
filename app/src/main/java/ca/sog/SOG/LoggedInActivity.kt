@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.GsonBuilder
 import okhttp3.*
 import okio.IOException
 import kotlinx.android.synthetic.main.activity_logged_in.*
@@ -47,36 +48,39 @@ class LoggedInActivity : AppCompatActivity() {
                         val responseBody = response.body
                         val responseBodyString = responseBody?.string() ?: "NULL"
                         responseBodyJson = JSONObject(responseBodyString)
-                        //Can't run UI on network thread
+                        val accountsJSONlist = responseBodyJson.getJSONArray("accounts") //User may have more than 1 account! want to select them all here
+                        val gson = GsonBuilder().create()
+                        val responseAccountsList= gson.fromJson(accountsJSONlist.toString(), Array<QuestAccount>::class.java).toList()
+                        println(responseAccountsList)
                     }
                 }
             }
 
             //Grab accounts
-            val userID = responseBodyJson.getInt("userId").toString() //outside of jsonArray
-
-            val accountsList = mutableListOf<QuestAccount>()
-            val accountsJSONlist = responseBodyJson.getJSONArray("accounts") //User may have more than 1 account! want to select them all here
-            for (i in 0 until accountsJSONlist.length()){
-                val curr = accountsJSONlist.getJSONObject(i)
-
-                val type = curr.getString("type")
-                val number = curr.getString("number")
-                val status = curr.getString("status")
-                val isPrimary = curr.getBoolean("isPrimary")
-                val isBilling = curr.getBoolean("isBilling")
-                val clientAccountType = curr.getString("clientAccountType")
-
-                val newAcc = QuestAccount(type, number, status, isPrimary, isBilling, clientAccountType)
-                accountsList.add(newAcc)
-            }
-
-
+//            val userID = responseBodyJson.getInt("userId").toString() //outside of jsonArray
+//
+//            val accountsList = mutableListOf<QuestAccount>()
+//            val accountsJSONlist = responseBodyJson.getJSONArray("accounts") //User may have more than 1 account! want to select them all here
+//            for (i in 0 until accountsJSONlist.length()){
+//                val curr = accountsJSONlist.getJSONObject(i)
+//
+//                val type = curr.getString("type")
+//                val number = curr.getString("number")
+//                val status = curr.getString("status")
+//                val isPrimary = curr.getBoolean("isPrimary")
+//                val isBilling = curr.getBoolean("isBilling")
+//                val clientAccountType = curr.getString("clientAccountType")
+//
+//                val newAcc = QuestAccount(type, number, status, isPrimary, isBilling, clientAccountType)
+//                accountsList.add(newAcc)
+//            }
 
 
-            launch(Dispatchers.Main){
-                //textView.text = number
-            }
+
+
+//            launch(Dispatchers.Main){
+//                //textView.text = number
+//            }
         }
 
 //                {
