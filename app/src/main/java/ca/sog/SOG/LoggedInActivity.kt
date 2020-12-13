@@ -2,6 +2,8 @@ package ca.sog.SOG
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import okhttp3.*
 import okio.IOException
 import kotlinx.android.synthetic.main.activity_logged_in.*
@@ -58,12 +60,6 @@ class LoggedInActivity : AppCompatActivity() {
             }
         }
 
-
-
-
-
-//        TODO decide either to make List UI for accounts response OR
-//        select the first account to call accounts/:id/positions
 //                {
 //                    "accounts": [
 //                    {
@@ -78,6 +74,23 @@ class LoggedInActivity : AppCompatActivity() {
 //                    ],
 //                    "userId": 3000124
 //                }
+
+        var fakeAccountsList = mutableListOf(
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+                QuestAccount( "Margin", "fake123",  "Active",true,true, "Individual"),
+        )
+
+        val accountsAdapter = AccountAdapter(fakeAccountsList)
+        val accountsRecyclerView: RecyclerView = findViewById(R.id.accountsRecycleView)
+        accountsRecyclerView.adapter = accountsAdapter
+        accountsRecyclerView.layoutManager = LinearLayoutManager(this)
+
 
 //        TODO on account selected, get account number and and call accounts/:id/positions
 //        GET https://api01.iq.questrade.com/v1/accounts/26598145/positions
