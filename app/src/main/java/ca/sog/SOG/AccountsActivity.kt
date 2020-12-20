@@ -19,15 +19,19 @@ class AccountsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_accounts)
 
-        var responseAccountsList = mutableListOf<QuestAccount>()
+        val responseAccountsList = mutableListOf<QuestAccount>()
+
+        val accountsAdapter = AccountAdapter(responseAccountsList)
+        accountsRecycleView.adapter = accountsAdapter
+        //accountsRecyclerView.layoutManager = LinearLayoutManager(this@AccountsActivity) //Done in XML
 
         val tokenBundle = intent.extras
         val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
 
         val access_token = tokensList[0]
-//        val refresh_token = tokensList[1]
-//        val token_type = tokensList[2]
-//        val expires_in = tokensList[3]
+        val refresh_token = tokensList[1]
+        val token_type = tokensList[2]
+        val expires_in = tokensList[3]
         val api_server = tokensList[4]
 
 //        GET /v1/accounts HTTP/1.1
@@ -52,18 +56,17 @@ class AccountsActivity : AppCompatActivity() {
                         val accountsJSONlist = responseBodyJson.getJSONArray("accounts") //User may have more than 1 account! want to select them all here
                         val gson = GsonBuilder().create()
                         val responseAccountsArray = gson.fromJson(accountsJSONlist.toString(), Array<QuestAccount>::class.java)
-                        responseAccountsList = responseAccountsArray.toCollection(mutableListOf())
+                        responseAccountsList.addAll(responseAccountsArray.toCollection(mutableListOf()))
                     }
                 }
             }
 
             launch(Dispatchers.Main){
-                val accountsAdapter = AccountAdapter(responseAccountsList)
-                val accountsRecyclerView: RecyclerView = findViewById(R.id.accountsRecycleView)
-                accountsRecyclerView.adapter = accountsAdapter
-                accountsRecyclerView.layoutManager = LinearLayoutManager(this@AccountsActivity)
+                accountsAdapter.notifyDataSetChanged()
             }
         }
+
+
 
 
 //        TODO on account selected, get account number and and call accounts/:id/positions
