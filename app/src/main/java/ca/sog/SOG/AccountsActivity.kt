@@ -7,17 +7,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import okio.IOException
-import kotlinx.android.synthetic.main.activity_logged_in.*
+import kotlinx.android.synthetic.main.activity_accounts.*
 import org.json.JSONObject
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.mutableListOf as mutableListOf
 
-class LoggedInActivity : AppCompatActivity() {
+class AccountsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_logged_in)
+        setContentView(R.layout.activity_accounts)
 
         var responseAccountsList = mutableListOf<QuestAccount>()
 
@@ -61,7 +61,7 @@ class LoggedInActivity : AppCompatActivity() {
                 val accountsAdapter = AccountAdapter(responseAccountsList)
                 val accountsRecyclerView: RecyclerView = findViewById(R.id.accountsRecycleView)
                 accountsRecyclerView.adapter = accountsAdapter
-                accountsRecyclerView.layoutManager = LinearLayoutManager(this@LoggedInActivity)
+                accountsRecyclerView.layoutManager = LinearLayoutManager(this@AccountsActivity)
             }
         }
 

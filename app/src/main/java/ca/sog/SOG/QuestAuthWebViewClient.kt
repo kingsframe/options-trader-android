@@ -20,7 +20,7 @@ class QuestAuthWebViewClient(private val context: Context) : WebViewClient() {
         val tokenBundle = Bundle()
         tokenBundle.putStringArrayList("tokens", tokens.getArray())
 
-        val startLoggedInActivityIntent = Intent(context, LoggedInActivity::class.java)
+        val startLoggedInActivityIntent = Intent(context, AccountsActivity::class.java)
         startLoggedInActivityIntent.putExtras(tokenBundle)
 
         startActivity(context, startLoggedInActivityIntent, tokenBundle)

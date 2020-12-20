@@ -3,6 +3,7 @@
     package="ca.sog.SOG">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -14,8 +15,8 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".StartLogInActivity"></activity>
         <activity
-            android:name=".LoggedInActivity"
-            android:label="@string/title_activity_logged_in"
+            android:name=".AccountsActivity"
+            android:label="@string/title_activity_accounts"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
