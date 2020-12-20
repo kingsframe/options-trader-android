@@ -2,6 +2,7 @@ package ca.sog.SOG
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
@@ -14,14 +15,21 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.mutableListOf as mutableListOf
 
-class AccountsActivity : AppCompatActivity() {
+class AccountsActivity : AppCompatActivity(), OnItemClickListener {
+
+    override fun onItemClicked(accountNumber: String) {
+        Toast.makeText(this,"account number ${accountNumber}",Toast.LENGTH_LONG)
+                .show()
+//        Log.i("USER_",user.username)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_accounts)
 
         val responseAccountsList = mutableListOf<QuestAccount>()
 
-        val accountsAdapter = AccountAdapter(responseAccountsList)
+        val accountsAdapter = AccountAdapter(responseAccountsList, this)
         accountsRecycleView.adapter = accountsAdapter
         //accountsRecyclerView.layoutManager = LinearLayoutManager(this@AccountsActivity) //Done in XML
 
