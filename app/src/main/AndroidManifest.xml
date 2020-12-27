@@ -13,7 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".StartLogInActivity"></activity>
+        <activity
+            android:name=".PositionsActivity"
+            android:label="@string/title_activity_positions"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".StartLogInActivity" />
         <activity
             android:name=".AccountsActivity"
             android:label="@string/title_activity_accounts"

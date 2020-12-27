@@ -1,5 +1,6 @@
 package ca.sog.SOG
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -18,9 +19,10 @@ import kotlin.collections.mutableListOf as mutableListOf
 class AccountsActivity : AppCompatActivity(), OnItemClickListener {
 
     override fun onItemClicked(accountNumber: String) {
-        Toast.makeText(this,"account number ${accountNumber}",Toast.LENGTH_LONG)
-                .show()
-//        Log.i("USER_",user.username)
+//        Toast.makeText(this,"account number ${accountNumber}",Toast.LENGTH_LONG)
+//                .show()
+        val intent = Intent(this, PositionsActivity::class.java)
+        startActivity(intent);
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
