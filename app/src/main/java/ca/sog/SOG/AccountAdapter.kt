@@ -18,7 +18,7 @@ class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: On
             accStatus = itemView.findViewById(R.id.accountStatus)
         }
 
-        fun bind(accountNumber: Int, clickListener: OnItemClickListener){
+        fun bind(accountNumber: String, clickListener: OnItemClickListener){
             itemView.setOnClickListener{
                 clickListener.onItemClicked(accountNumber)
             }
@@ -32,9 +32,9 @@ class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: On
 
     override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
         holder.accNumber.text = accounts[position].number
-        holder.accNumber.text = accounts[position].type
+        holder.accType.text = accounts[position].type
         holder.accStatus.text = accounts[position].status
-        holder.bind(R.layout.account_item, itemClickListener)       //have a dedicated button
+        holder.bind(accounts[position].number, itemClickListener)       //have a dedicated button
     }
 
     override fun getItemCount(): Int {
@@ -43,5 +43,5 @@ class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: On
 }
 
 interface OnItemClickListener{
-    fun onItemClicked(accountNumber: Int)
+    fun onItemClicked(accountNumber: String)
 }
