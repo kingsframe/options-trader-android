@@ -9,13 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: OnItemClickListener): RecyclerView.Adapter<AccountAdapter.AccountViewHolder>() {
 
     inner class AccountViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val accItem: TextView
-
+        val accNumber: TextView
+        val accType: TextView
+        val accStatus: TextView
         init {
-            accItem = itemView.findViewById(R.id.accountItem)
+            accNumber = itemView.findViewById(R.id.accountNumber)
+            accType = itemView.findViewById(R.id.accountType)
+            accStatus = itemView.findViewById(R.id.accountStatus)
         }
 
-        fun bind(accountNumber: String, clickListener: OnItemClickListener){
+        fun bind(accountNumber: Int, clickListener: OnItemClickListener){
             itemView.setOnClickListener{
                 clickListener.onItemClicked(accountNumber)
             }
@@ -28,8 +31,10 @@ class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: On
     }
 
     override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
-        holder.accItem.text = accounts[position].number
-        holder.bind(accounts[position].number, itemClickListener)
+        holder.accNumber.text = accounts[position].number
+        holder.accNumber.text = accounts[position].type
+        holder.accStatus.text = accounts[position].status
+        holder.bind(R.layout.account_item, itemClickListener)       //have a dedicated button
     }
 
     override fun getItemCount(): Int {
@@ -38,5 +43,5 @@ class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: On
 }
 
 interface OnItemClickListener{
-    fun onItemClicked(accountNumber: String)
+    fun onItemClicked(accountNumber: Int)
 }
