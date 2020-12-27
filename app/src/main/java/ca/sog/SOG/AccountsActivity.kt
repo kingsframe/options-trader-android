@@ -28,6 +28,7 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_accounts)
+        setSupportActionBar(findViewById(R.id.toolbar))
 
         val responseAccountsList = mutableListOf<QuestAccount>()
 

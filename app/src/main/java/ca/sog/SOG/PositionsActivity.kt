@@ -11,6 +11,6 @@ class PositionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_positions)
         setSupportActionBar(findViewById(R.id.toolbar))
-        
+
     }
 }
