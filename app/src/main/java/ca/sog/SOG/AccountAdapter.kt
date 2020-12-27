@@ -3,17 +3,16 @@ package ca.sog.SOG
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: OnItemClickListener): RecyclerView.Adapter<AccountAdapter.AccountViewHolder>() {
 
     inner class AccountViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textView: TextView
+        val accItem: TextView
 
         init {
-            textView = itemView.findViewById(R.id.accountItem)
+            accItem = itemView.findViewById(R.id.accountItem)
         }
 
         fun bind(accountNumber: String, clickListener: OnItemClickListener){
@@ -29,7 +28,7 @@ class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: On
     }
 
     override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
-        holder.textView.text = accounts[position].number
+        holder.accItem.text = accounts[position].number
         holder.bind(accounts[position].number, itemClickListener)
     }
 
