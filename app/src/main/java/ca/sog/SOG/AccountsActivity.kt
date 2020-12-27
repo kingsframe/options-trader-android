@@ -19,9 +19,8 @@ import kotlin.collections.mutableListOf as mutableListOf
 class AccountsActivity : AppCompatActivity(), OnItemClickListener {
 
     override fun onItemClicked(accountNumber: String) {
-//        Toast.makeText(this,"account number ${accountNumber}",Toast.LENGTH_LONG)
-//                .show()
         val intent = Intent(this, PositionsActivity::class.java)
+        intent.putExtra("accountNumber", accountNumber)
         startActivity(intent);
     }
 
