@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
-import kotlinx.android.synthetic.main.account_item.*
 import okhttp3.*
 import okio.IOException
 import kotlinx.android.synthetic.main.activity_accounts.*
@@ -77,8 +76,12 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
             }
         }
 
+
+
+
 //        TODO on account selected, get account number and and call accounts/:id/positions
 //        GET https://api01.iq.questrade.com/v1/accounts/26598145/positions
+
 //        {
 //            "positions": [
 //            {
@@ -96,8 +99,6 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
 //            }
 //            ]
 //        }
-
-
 
     }
 }

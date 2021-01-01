@@ -1,4 +1,4 @@
-    package ca.sog.SOG
+package ca.sog.SOG
 
 import android.content.Context
 import android.content.Intent
@@ -21,13 +21,9 @@ class QuestAuthWebViewClient(private val context: Context) : WebViewClient() {
         tokenBundle.putStringArrayList("tokens", tokens.getArray())
 
         val startLoggedInActivityIntent = Intent(context, AccountsActivity::class.java)
-        val startLoggedInPositionsIntent = Intent(context, PositionsActivity::class.java)
-
         startLoggedInActivityIntent.putExtras(tokenBundle)
-        startLoggedInPositionsIntent.putExtras(tokenBundle)
 
         startActivity(context, startLoggedInActivityIntent, tokenBundle)
-        startActivity(context, startLoggedInPositionsIntent, tokenBundle)
 
         return true
     }
