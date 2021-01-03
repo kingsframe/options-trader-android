@@ -26,7 +26,8 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
     }
 
     private fun onFabClicked() {
-        Toast.makeText(this,"account number",Toast.LENGTH_LONG).show()
+        val intent = Intent(this, SearchSymbolActivity::class.java)
+        startActivity(intent);
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
