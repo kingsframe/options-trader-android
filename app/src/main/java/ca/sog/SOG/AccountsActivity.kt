@@ -18,10 +18,15 @@ import kotlin.collections.mutableListOf as mutableListOf
 
 class AccountsActivity : AppCompatActivity(), OnItemClickListener {
 
+    var access_token = ""
+    var api_server = ""
+
     override fun onItemClicked(accountNumber: String) {
         val intent = Intent(this, PositionsActivity::class.java)
         intent.putExtra("accountNumber", accountNumber)
-        startActivity(intent);
+        intent.putExtra("access_token", access_token)
+        intent.putExtra("api_server", api_server)
+        startActivity(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +43,11 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
         val tokenBundle = intent.extras
         val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
 
-        val access_token = tokensList[0]
+        access_token = tokensList[0]
         val refresh_token = tokensList[1]
         val token_type = tokensList[2]
         val expires_in = tokensList[3]
-        val api_server = tokensList[4]
+        api_server = tokensList[4]
 
 //        GET /v1/accounts HTTP/1.1
 //        Host: https://api01.iq.questrade.com
@@ -74,8 +79,9 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
             launch(Dispatchers.Main){
                 accountsAdapter.notifyDataSetChanged()
             }
-        }
 
+
+        }
 
 
 
