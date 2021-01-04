@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.account_item.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -27,10 +26,7 @@ class PositionsActivity : AppCompatActivity() {
         val access_token = accountInfo?.getString("access_token") ?: String()
         val api_server = accountInfo?.getString("api_server") ?: String()
 
-        val url = api_server + "v1/accounts/${accountNumber}/positions"
-
-        val symbol: TextView = findViewById((R.id.sym))
-        val symbolId: TextView = findViewById((R.id.symId))
+        val positions: TextView = findViewById((R.id.positions))
 
         Toast.makeText(this,"account number ${accountNumber}",Toast.LENGTH_LONG).show()
 
@@ -40,13 +36,23 @@ class PositionsActivity : AppCompatActivity() {
         GlobalScope.launch (Dispatchers.IO) {
             val client = OkHttpClient()
             val request = Request.Builder()
-                    .url(url)
+                    .url(api_server + "v1/accounts/${accountNumber}/positions")
                     .header("Authorization", "Bearer $access_token")
                     .build()
 
+            lateinit var responseBodyJson: JSONObject
             client.newCall(request).execute().use{ response ->
                 if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+                response.use {
+                    if (response.isSuccessful) {
+                        positions.text = response.body?.string()
+                    }
+                }
+
             }
+
+
         }
 
         /*
