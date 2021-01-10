@@ -5,11 +5,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.account_item.*
+import kotlinx.android.synthetic.main.activity_accounts.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 
@@ -26,7 +26,10 @@ class PositionsActivity : AppCompatActivity() {
         val access_token = accountInfo?.getString("access_token") ?: String()
         val api_server = accountInfo?.getString("api_server") ?: String()
 
-        val positions: TextView = findViewById((R.id.positions))
+        val responsePositionsList = mutableListOf<Positions>()
+
+        val positionsAdapter = PositionsAdapter(responsePositionsList, this)
+        positionsRecycleView.adapter = positionsAdapter
 
         Toast.makeText(this,"account number ${accountNumber}",Toast.LENGTH_LONG).show()
 
@@ -40,7 +43,12 @@ class PositionsActivity : AppCompatActivity() {
                     .header("Authorization", "Bearer $access_token")
                     .build()
 
-            lateinit var responseBodyJson: JSONObject
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {}
+                override fun onResponse(call: Call, response: Response) = println(response.body?.string())
+            })
+
+            /*lateinit var responseBodyJson: JSONObject
             client.newCall(request).execute().use{ response ->
                 if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
@@ -50,7 +58,8 @@ class PositionsActivity : AppCompatActivity() {
                     }
                 }
 
-            }
+            }*/
+
 
 
         }
