@@ -1,11 +1,12 @@
 package ca.sog.SOG
 
 import android.os.Bundle
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.account_item.*
 import kotlinx.android.synthetic.main.activity_accounts.*
+import kotlinx.android.synthetic.main.activity_positions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -43,41 +44,31 @@ class PositionsActivity : AppCompatActivity() {
                     .header("Authorization", "Bearer $access_token")
                     .build()
 
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {}
-                override fun onResponse(call: Call, response: Response) = println(response.body?.string())
-            })
-
-            /*lateinit var responseBodyJson: JSONObject
+            lateinit var responseBodyJson: JSONObject
             client.newCall(request).execute().use{ response ->
                 if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
                 response.use {
                     if (response.isSuccessful) {
-                        positions.text = response.body?.string()
+                        val responseBody = response.body
+                        val responseBodyString = responseBody?.string() ?: "NULL"
+                        responseBodyJson = JSONObject(responseBodyString)
+                        val positionsJSONlist = responseBodyJson.getJSONArray("positions")
+                        val gson = GsonBuilder().create()
+                        val responsePositionsArray = gson.fromJson(positionsJSONlist.toString(), Array<Positions>::class.java)
+                        responsePositionsList.addAll(responsePositionsArray.toCollection(mutableListOf()))
                     }
                 }
 
-            }*/
+                launch(Dispatchers.Main){
+                    positionsAdapter.notifyDataSetChanged()
+                }
 
-
+            }
 
         }
-
-        /*
-        //lateinit var responseBodyJson: JSONObject
-        response.use {
-                val responseBody = response.body
-                val responseBodyString = responseBody?.string() ?: "NULL"
-                responseBodyJson = JSONObject(responseBodyString)
-                val gson = GsonBuilder().create()
-            }*/
-
-            //symbol.text = response.toString()
-            //symbolId.text = "Hello World!"
-        }
-
     }
+}
 
 
 

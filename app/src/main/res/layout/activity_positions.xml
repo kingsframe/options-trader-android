@@ -42,4 +42,12 @@
         tools:layout_conversion_absoluteHeight="56dp"
         tools:layout_conversion_absoluteWidth="411dp" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/positionsRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+    </androidx.recyclerview.widget.RecyclerView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
