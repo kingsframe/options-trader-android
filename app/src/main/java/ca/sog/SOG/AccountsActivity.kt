@@ -52,17 +52,20 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
 //        GET /v1/accounts HTTP/1.1
 //        Host: https://api01.iq.questrade.com
 //        Authorization: Bearer C3lTUKuNQrAAmSD/TPjuV/HI7aNrAwDp
-        GlobalScope.launch (Dispatchers.IO){
-            val client = OkHttpClient()
-            val request = Request.Builder()
-                    .url(api_server + "v1/accounts")
-                    .header("Authorization", "Bearer $access_token")
-                    .build()
+        val client = OkHttpClient()
+        val request = Request.Builder()
+                .url(api_server + "v1/accounts")
+                .header("Authorization", "Bearer $access_token")
+                .build()
+        lateinit var responseBodyJson: JSONObject
 
-            lateinit var responseBodyJson: JSONObject
-            client.newCall(request).execute().use{ response ->
-                if (!response.isSuccessful) throw IOException("Unexpected code $response")
+        client.newCall(request).enqueue(object: Callback {
 
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (response.isSuccessful) {
                         val responseBody = response.body
@@ -72,13 +75,11 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
                         val gson = GsonBuilder().create()
                         val responseAccountsArray = gson.fromJson(accountsJSONlist.toString(), Array<QuestAccount>::class.java)
                         responseAccountsList.addAll(responseAccountsArray.toCollection(mutableListOf()))
+
+                        this@AccountsActivity.runOnUiThread(Runnable { accountsAdapter.notifyDataSetChanged() })
                     }
                 }
             }
-
-            launch(Dispatchers.Main){
-                accountsAdapter.notifyDataSetChanged()
-            }
-        }
+        })
     }
 }
