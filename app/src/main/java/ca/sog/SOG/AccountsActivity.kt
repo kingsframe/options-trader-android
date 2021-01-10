@@ -4,9 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import okio.IOException
@@ -39,15 +36,13 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
         fab.setOnClickListener {
             onFabClicked()
         }
-        val responseAccountsList = mutableListOf<QuestAccount>()
 
+        val responseAccountsList = mutableListOf<QuestAccount>()
         val accountsAdapter = AccountAdapter(responseAccountsList, this)
         accountsRecycleView.adapter = accountsAdapter
-        //accountsRecyclerView.layoutManager = LinearLayoutManager(this@AccountsActivity) //Done in XML
 
         val tokenBundle = intent.extras
         val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
-
         val access_token = tokensList[0]
         val refresh_token = tokensList[1]
         val token_type = tokensList[2]
@@ -57,17 +52,20 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
 //        GET /v1/accounts HTTP/1.1
 //        Host: https://api01.iq.questrade.com
 //        Authorization: Bearer C3lTUKuNQrAAmSD/TPjuV/HI7aNrAwDp
-        GlobalScope.launch (Dispatchers.IO){
-            val client = OkHttpClient()
-            val request = Request.Builder()
-                    .url(api_server + "v1/accounts")
-                    .header("Authorization", "Bearer $access_token")
-                    .build()
+        val client = OkHttpClient()
+        val request = Request.Builder()
+                .url(api_server + "v1/accounts")
+                .header("Authorization", "Bearer $access_token")
+                .build()
+        lateinit var responseBodyJson: JSONObject
 
-            lateinit var responseBodyJson: JSONObject
-            client.newCall(request).execute().use{ response ->
-                if (!response.isSuccessful) throw IOException("Unexpected code $response")
+        client.newCall(request).enqueue(object: Callback {
 
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (response.isSuccessful) {
                         val responseBody = response.body
@@ -77,38 +75,11 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
                         val gson = GsonBuilder().create()
                         val responseAccountsArray = gson.fromJson(accountsJSONlist.toString(), Array<QuestAccount>::class.java)
                         responseAccountsList.addAll(responseAccountsArray.toCollection(mutableListOf()))
+
+                        this@AccountsActivity.runOnUiThread(Runnable { accountsAdapter.notifyDataSetChanged() })
                     }
                 }
             }
-
-            launch(Dispatchers.Main){
-                accountsAdapter.notifyDataSetChanged()
-            }
-        }
-
-
-
-
-//        TODO on account selected, get account number and and call accounts/:id/positions
-//        GET https://api01.iq.questrade.com/v1/accounts/26598145/positions
-
-//        {
-//            "positions": [
-//            {
-//                "symbol": "THI.TO",
-//                "symbolId": 38738,
-//                "openQuantity": 100,
-//                "currentMarketValue": 6017,
-//                "currentPrice": 60.17,
-//                "averageEntryPrice": 60.23,
-//                "closedPnl": 0,
-//                "openPnl": -6,
-//                "totalCost": false,
-//                "isRealTime": "Individual",
-//                "isUnderReorg": false
-//            }
-//            ]
-//        }
-
+        })
     }
 }
