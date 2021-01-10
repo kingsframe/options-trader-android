@@ -25,24 +25,26 @@ class SearchSymbolActivity : AppCompatActivity() {
         handleIntent(intent)
     }
 
-    fun handleIntent(intent: Intent) {
+    private fun handleIntent(intent: Intent) {
         if (Intent.ACTION_SEARCH == intent.action) {        // Receiving teh query
-            intent.getStringExtra(SearchManager.QUERY)?.also { query ->
-                Toast.makeText(this, "test3", Toast.LENGTH_SHORT).show()
-            }
+//            intent.getStringExtra(SearchManager.QUERY)?.also { query ->
+//                Toast.makeText(this, query, Toast.LENGTH_SHORT).show()
+//            }
+            val searchQuery: String = intent.getStringExtra(SearchManager.QUERY)
+            Toast.makeText(this, searchQuery, Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
-
         val searchItem = menu?.findItem(R.id.actionSearch)          //unsafe call
         val searchView = searchItem?.actionView as SearchView
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        searchView.setSubmitButtonEnabled(true)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(p0: String?): Boolean {
-                Toast.makeText(this@SearchSymbolActivity, "test1",Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@SearchSymbolActivity, "test1",Toast.LENGTH_SHORT).show()
                 return false
             }
 
