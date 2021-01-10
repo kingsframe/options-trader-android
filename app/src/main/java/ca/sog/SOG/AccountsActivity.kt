@@ -4,9 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import okio.IOException
@@ -39,15 +36,13 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
         fab.setOnClickListener {
             onFabClicked()
         }
-        val responseAccountsList = mutableListOf<QuestAccount>()
 
+        val responseAccountsList = mutableListOf<QuestAccount>()
         val accountsAdapter = AccountAdapter(responseAccountsList, this)
         accountsRecycleView.adapter = accountsAdapter
-        //accountsRecyclerView.layoutManager = LinearLayoutManager(this@AccountsActivity) //Done in XML
 
         val tokenBundle = intent.extras
         val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
-
         val access_token = tokensList[0]
         val refresh_token = tokensList[1]
         val token_type = tokensList[2]
@@ -85,30 +80,5 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
                 accountsAdapter.notifyDataSetChanged()
             }
         }
-
-
-
-
-//        TODO on account selected, get account number and and call accounts/:id/positions
-//        GET https://api01.iq.questrade.com/v1/accounts/26598145/positions
-
-//        {
-//            "positions": [
-//            {
-//                "symbol": "THI.TO",
-//                "symbolId": 38738,
-//                "openQuantity": 100,
-//                "currentMarketValue": 6017,
-//                "currentPrice": 60.17,
-//                "averageEntryPrice": 60.23,
-//                "closedPnl": 0,
-//                "openPnl": -6,
-//                "totalCost": false,
-//                "isRealTime": "Individual",
-//                "isUnderReorg": false
-//            }
-//            ]
-//        }
-
     }
 }
