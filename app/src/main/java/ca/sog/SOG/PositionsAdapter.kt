@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class PositionsAdapter(var positions: List<Positions>, positionsActivity: PositionsActivity): RecyclerView.Adapter<PositionsAdapter.PositionsViewHolder>() {
-
+    // TODO: Decide on TextView placement for each Positions attribute
     inner class PositionsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val sym: TextView
         val symId: TextView
