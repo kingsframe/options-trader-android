@@ -22,7 +22,6 @@ class QuestAuthWebViewClient(private val context: Context) : WebViewClient() {
 
         val startLoggedInActivityIntent = Intent(context, AccountsActivity::class.java)
         startLoggedInActivityIntent.putExtras(tokenBundle)
-
         startActivity(context, startLoggedInActivityIntent, tokenBundle)
 
         return true
