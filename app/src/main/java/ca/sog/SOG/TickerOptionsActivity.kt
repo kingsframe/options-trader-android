@@ -2,40 +2,28 @@ package ca.sog.SOG
 
 import android.app.SearchManager
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.widget.SearchView
-import android.widget.Toast
-import com.google.gson.GsonBuilder
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 
 
-class PositionActivity : AppCompatActivity() {
+class TickerOptionsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_position)
-
-//        val tokenBundle = intent.extras
-//        val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
-
+        setContentView(R.layout.activity_ticker_options)
     }
 
-    inner class OptionChain {} //TODO
-
-    fun searchRes (tokensList : ArrayList<String>, symbolStr : String) : OptionChain{
+    fun searchRes (tokensList : ArrayList<String>, symbolStr : String) {
         val access_token = tokensList[0]
         val refresh_token = tokensList[1]
         val token_type = tokensList[2]
         val expires_in = tokensList[3]
         val api_server = tokensList[4]
 
-//        GET /v1/accounts HTTP/1.1
-//        Host: https://api01.iq.questrade.com
-//        Authorization: Bearer C3lTUKuNQrAAmSD/TPjuV/HI7aNrAwDp
         val client = OkHttpClient()
         val request = Request.Builder()
             .url(api_server + "v1/symbols/9291/options")
@@ -67,7 +55,6 @@ class PositionActivity : AppCompatActivity() {
                 }
             }
         })
-        return OptionChain()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
