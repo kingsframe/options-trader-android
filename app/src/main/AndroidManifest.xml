@@ -14,32 +14,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".TickerOptionsActivity"></activity>
-        <activity android:name=".PositionActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.SEARCH" /> -->
-            <!-- </intent-filter> -->
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-        <activity
-            android:name=".SearchSymbolActivity"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-        <activity
-            android:name=".PositionsActivity"
-            android:label="@string/title_activity_positions"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StartLogInActivity" />
         <activity
             android:name=".AccountsActivity"
             android:label="@string/title_activity_accounts"
