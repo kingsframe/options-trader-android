@@ -2,6 +2,7 @@ package ca.sog.SOG
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -15,6 +16,14 @@ class TickerOptionsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ticker_options)
+
+        val intent = Intent(this, OptionsSearchActivity::class.java)
+        val tokenBundle = Bundle()
+        tokenBundle.putString("symbol", "TSM")
+        tokenBundle.putString("symbolId", "38052")
+        intent.putExtras(tokenBundle)
+        startActivity(intent);
+
     }
 
     fun searchRes (tokensList : ArrayList<String>, symbolStr : String) {
@@ -43,6 +52,7 @@ class TickerOptionsActivity : AppCompatActivity() {
                         val responseBody = response.body
                         val responseBodyString = responseBody?.string() ?: "NULL"
                         responseBodyJson = JSONObject(responseBodyString)
+
 //                        TODO: create option date object and Recycle adapter and then notify createOption changed
 //                        see example below:
 //                        val accountsJSONlist = responseBodyJson.getJSONArray("accounts") //User may have more than 1 account! want to select them all here
@@ -69,7 +79,7 @@ class TickerOptionsActivity : AppCompatActivity() {
                 return false
             }
 
-            override fun onQueryTextSubmit(p0: String?): Boolean {
+            override fun onQueryTextSubmit(p0: String?): Boolean { //TODO p0 is the input str
                 //want to go to a new activity, We can consult later about simply not requiring a new activity for the search, since it is done on menu bar
                 val tokenBundle = intent.extras
                 val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
