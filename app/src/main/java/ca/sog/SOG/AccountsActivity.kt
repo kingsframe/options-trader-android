@@ -3,9 +3,7 @@ package ca.sog.SOG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import android.view.View
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import okio.IOException
@@ -29,16 +27,24 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
         startActivity(intent)
     }
 
+    private fun onFabClicked() {
+        val intent = Intent(this, SearchSymbolActivity::class.java)
+        startActivity(intent);
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_accounts)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        val responseAccountsList = mutableListOf<QuestAccount>()
+        val fab: View = findViewById(R.id.fabSearch)
+        fab.setOnClickListener {
+            onFabClicked()
+        }
 
+        val responseAccountsList = mutableListOf<QuestAccount>()
         val accountsAdapter = AccountAdapter(responseAccountsList, this)
         accountsRecycleView.adapter = accountsAdapter
-        //accountsRecyclerView.layoutManager = LinearLayoutManager(this@AccountsActivity) //Done in XML
 
         val tokenBundle = intent.extras
         val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
