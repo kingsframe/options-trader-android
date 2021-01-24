@@ -14,16 +14,16 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.mutableListOf as mutableListOf
 
-class AccountsActivity : AppCompatActivity(), OnItemClickListener {
+class AccountsActivity : AppCompatActivity(), OnItemClickListener_old {
 
     override fun onItemClicked(accountNumber: String) {
-        val intent = Intent(this, TickerOptionsActivity::class.java)
+        val intent = Intent(this, TickerSearchActivity::class.java)
         intent.putExtra("accountNumber", accountNumber)
         startActivity(intent);
     }
 
     private fun onFabClicked() {
-        val intent = Intent(this, TickerOptionsActivity::class.java)
+        val intent = Intent(this, TickerSearchActivity::class.java)
         startActivity(intent);
     }
 
