@@ -17,7 +17,6 @@ import java.io.IOException
 
 
 class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
-    //init{}
     lateinit var responseList : MutableList<Ticker>
     lateinit var tickerAdapter : TickerAdapter
 
@@ -34,15 +33,6 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
         responseList = mutableListOf<Ticker>()
         tickerAdapter = TickerAdapter(responseList, this)
         tickerRecycleView.adapter = tickerAdapter
-
-//        accountsRecycleView.adapter = accountsAdapter //TODO recyclerview
-
-//        val intent = Intent(this, OptionsSearchActivity::class.java) //TODO test
-//        val tokenBundle = Bundle()
-//        tokenBundle.putString("symbol", "TSM")
-//        tokenBundle.putString("symbolId", "38052")
-//        intent.putExtras(tokenBundle)
-//        startActivity(intent);
     }
 
 
@@ -75,10 +65,11 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
                         val tickersJsonList = responseBodyJson.getJSONArray("symbols")
                         val gson = GsonBuilder().create()
                         val tickersArray = gson.fromJson(tickersJsonList.toString(), Array<Ticker>::class.java)
-                        //responseList.addAll(tickersArray.toCollection(mutableListOf()))
+
                         this@TickerSearchActivity.runOnUiThread(kotlinx.coroutines.Runnable {
                             responseList.addAll(tickersArray.toCollection(mutableListOf()))
-                            tickerAdapter.notifyDataSetChanged() }) //update the recyclerView
+                            tickerAdapter.notifyDataSetChanged()
+                        }) //update the recyclerView
                         //create option date object and Recycle adapter and then notify createOption changed
                     }
                 }
@@ -99,12 +90,11 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
             }
 
             override fun onQueryTextSubmit(query: String?): Boolean {
-                //want to go to a new activity, We can consult later about simply not requiring a new activity for the search, since it is done on menu bar
                 responseList.removeAll(responseList)
                 val tokenBundle = intent.extras
                 val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
-                searchRes(tokensList, query ?: "") //grab results in this.responseList
-                Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_SHORT).show();
+                searchRes(tokensList, query ?: "")
+//                Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_SHORT).show();
                 return true
             }
         })
