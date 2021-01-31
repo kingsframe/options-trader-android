@@ -10,6 +10,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_accounts.*
+import kotlinx.android.synthetic.main.activity_ticker_search.*
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -32,7 +33,7 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
         setContentView(R.layout.activity_ticker_search)
         responseList = mutableListOf<Ticker>()
         tickerAdapter = TickerAdapter(responseList, this)
-
+        tickerRecycleView.adapter = tickerAdapter
 
 //        accountsRecycleView.adapter = accountsAdapter //TODO recyclerview
 
@@ -100,7 +101,7 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
                 val tokenBundle = intent.extras
                 val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
                 searchRes(tokensList, query ?: "") //grab results in this.responseList //TODO race condition
-                //Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_SHORT).show();
 //                TODO update option chain list and display recycle view
                 return true
             }
