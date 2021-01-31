@@ -98,6 +98,7 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
 
             override fun onQueryTextSubmit(query: String?): Boolean { //TODO query is the input str
                 //want to go to a new activity, We can consult later about simply not requiring a new activity for the search, since it is done on menu bar
+                responseList.removeAll(responseList)
                 val tokenBundle = intent.extras
                 val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
                 searchRes(tokensList, query ?: "") //grab results in this.responseList //TODO race condition
