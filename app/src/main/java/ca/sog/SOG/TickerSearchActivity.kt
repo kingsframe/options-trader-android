@@ -22,9 +22,10 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
     lateinit var responseList : MutableList<Ticker>
     lateinit var tickerAdapter : TickerAdapter
 
-    override fun onItemClicked(symbolId: Int) {
+    override fun onItemClicked(symbolId: Int, symbolName: String) {
         val intent = Intent(this, OptionsSearchActivity::class.java)
         intent.putExtra("symbolId", symbolId)
+        intent.putExtra("symbolName", symbolName)
         startActivity(intent);
     }
 

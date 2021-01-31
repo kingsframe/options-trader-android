@@ -15,7 +15,9 @@ class OptionsSearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_options_search)
 
         val symbolId = intent.extras?.getInt("symbolId")
+        val symbolName = intent.extras?.getString("symbolName")
 
+        supportActionBar?.title = symbolName
         optionSymbolID.text = symbolId.toString()
     }
 }

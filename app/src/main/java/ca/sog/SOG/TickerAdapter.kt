@@ -18,9 +18,9 @@ class TickerAdapter(var tickers: List<Ticker>, val itemClickListener: OnItemClic
             listingExchange = itemView.findViewById(R.id.listingExchange)
         }
 
-        fun bind(symbolId: Int, clickListener: OnItemClickListener){
+        fun bind(symbolId: Int, symbolName: String, clickListener: OnItemClickListener){
             itemView.setOnClickListener{
-                clickListener.onItemClicked(symbolId)
+                clickListener.onItemClicked(symbolId, symbolName)
             }
         }
     }
@@ -34,7 +34,7 @@ class TickerAdapter(var tickers: List<Ticker>, val itemClickListener: OnItemClic
         holder.symbol.text = tickers[position].symbol
         holder.description.text = tickers[position].description
         holder.listingExchange.text = tickers[position].listingExchange
-        holder.bind(tickers[position].symbolId, itemClickListener)       //have a dedicated button
+        holder.bind(tickers[position].symbolId, tickers[position].symbol, itemClickListener)       //have a dedicated button
     }
 
     override fun getItemCount(): Int {
@@ -43,5 +43,5 @@ class TickerAdapter(var tickers: List<Ticker>, val itemClickListener: OnItemClic
 }
 
 interface OnItemClickListener{
-    fun onItemClicked(symbolId: Int)
+    fun onItemClicked(symbolId: Int, symbolName: String)
 }
