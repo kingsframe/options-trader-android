@@ -17,7 +17,6 @@ import java.io.IOException
 
 
 class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
-    //TODO RACE CONDITION WHEN MULITPLE CONSECUTIVE SEARCHES
     //init{}
     lateinit var responseList : MutableList<Ticker>
     lateinit var tickerAdapter : TickerAdapter
@@ -76,8 +75,10 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
                         val tickersJsonList = responseBodyJson.getJSONArray("symbols")
                         val gson = GsonBuilder().create()
                         val tickersArray = gson.fromJson(tickersJsonList.toString(), Array<Ticker>::class.java)
-                        responseList.addAll(tickersArray.toCollection(mutableListOf()))
-                        this@TickerSearchActivity.runOnUiThread(kotlinx.coroutines.Runnable { tickerAdapter.notifyDataSetChanged() }) //update the recyclerView
+                        //responseList.addAll(tickersArray.toCollection(mutableListOf()))
+                        this@TickerSearchActivity.runOnUiThread(kotlinx.coroutines.Runnable {
+                            responseList.addAll(tickersArray.toCollection(mutableListOf()))
+                            tickerAdapter.notifyDataSetChanged() }) //update the recyclerView
                         //create option date object and Recycle adapter and then notify createOption changed
                     }
                 }
