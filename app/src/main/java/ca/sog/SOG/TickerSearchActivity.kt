@@ -17,13 +17,13 @@ import java.io.IOException
 
 
 class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
-
+    //TODO RACE CONDITION WHEN MULITPLE CONSECUTIVE SEARCHES
     //init{}
     lateinit var responseList : MutableList<Ticker>
     lateinit var tickerAdapter : TickerAdapter
 
     override fun onItemClicked(symbolId: Int) {
-        val intent = Intent(this, TickerSearchActivity::class.java)
+        val intent = Intent(this, OptionsSearchActivity::class.java)
         intent.putExtra("symbolId", symbolId)
         startActivity(intent);
     }

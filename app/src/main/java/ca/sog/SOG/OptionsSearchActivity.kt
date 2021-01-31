@@ -3,6 +3,7 @@ package ca.sog.SOG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_accounts.*
+import kotlinx.android.synthetic.main.activity_options_search.*
 
 //TODO we are given in bundle:
 //"symbol": "TSM",
@@ -13,10 +14,8 @@ class OptionsSearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_options_search)
 
-        val symbol = intent.extras?.getString("symbol")
-        val symbolId = intent.extras?.getString("symbolId")
+        val symbolId = intent.extras?.getInt("symbolId")
 
-        supportActionBar?.title = symbol
-
+        optionSymbolID.text = symbolId.toString()
     }
 }
