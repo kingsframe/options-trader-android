@@ -15,7 +15,7 @@ import java.io.IOException
 //"symbol": "TSM",
 //"symbolId": 38052,
 
-class OptionsSearchActivity : AppCompatActivity() {
+class OptionsSearchActivity : AppCompatActivity(), OnItemClickListener{
     val symbolId = intent.extras?.getInt("symbolId")
     val symbolName = intent.extras?.getString("symbolName")
 
@@ -27,12 +27,12 @@ class OptionsSearchActivity : AppCompatActivity() {
         optionSymbolID.text = symbolId.toString()
     }
 
-    /*override fun onItemClicked(symbolId: Int, symbolName: String) {
-        //val intent = Intent(this, OptionsChainActivity::class.java)
+    override fun onItemClicked(symbolId: Int, symbolName: String) {
+        val intent = Intent(this, OptionsChainActivity::class.java)
         intent.putExtra("symbolId", symbolId)
         intent.putExtra("symbolName", symbolName)
         startActivity(intent);
-    }*/
+    }
 
     fun getExpiryDate(tokensList: ArrayList<String>, query: String) {
         val access_token = tokensList[0]
