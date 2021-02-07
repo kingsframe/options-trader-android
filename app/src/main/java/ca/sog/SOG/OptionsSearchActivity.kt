@@ -16,6 +16,7 @@ class OptionsSearchActivity : AppCompatActivity() {
 
         val symbolId = intent.extras?.getInt("symbolId")
         val symbolName = intent.extras?.getString("symbolName")
+        val tokens = intent.extras?.getStringArrayList("tokens")
 
         supportActionBar?.title = symbolName
         optionSymbolID.text = symbolId.toString()

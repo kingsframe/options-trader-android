@@ -19,11 +19,13 @@ import java.io.IOException
 class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
     lateinit var responseList : MutableList<Ticker>
     lateinit var tickerAdapter : TickerAdapter
+    lateinit var tokensList : ArrayList<String>
 
     override fun onItemClicked(symbolId: Int, symbolName: String) {
         val intent = Intent(this, OptionsSearchActivity::class.java)
         intent.putExtra("symbolId", symbolId)
         intent.putExtra("symbolName", symbolName)
+        intent.putExtra("tokens", tokensList)
         startActivity(intent);
     }
 
@@ -92,7 +94,7 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 responseList.removeAll(responseList)
                 val tokenBundle = intent.extras
-                val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
+                tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
                 searchRes(tokensList, query ?: "")
 //                Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_SHORT).show();
                 return true
