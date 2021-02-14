@@ -35,6 +35,8 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
         responseList = mutableListOf<Ticker>()
         tickerAdapter = TickerAdapter(responseList, this)
         tickerRecycleView.adapter = tickerAdapter
+
+        supportActionBar?.title = "Select Underlying Stock"
     }
 
 
