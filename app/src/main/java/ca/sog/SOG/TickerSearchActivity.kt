@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.SearchRecentSuggestions
+import android.util.Log
 import android.view.Menu
 import android.widget.SearchView
 import android.widget.Toast
@@ -32,11 +34,12 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ticker_search)
+        val tokenBundle = intent.extras
+        tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
         responseList = mutableListOf<Ticker>()
         tickerAdapter = TickerAdapter(responseList, this)
         tickerRecycleView.adapter = tickerAdapter
-
-        supportActionBar?.title = "Select Underlying Stock"
+        //supportActionBar?.title = "Select Underlying Stock"
     }
 
 
@@ -95,13 +98,22 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 responseList.removeAll(responseList)
-                val tokenBundle = intent.extras
-                tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
                 searchRes(tokensList, query ?: "")
-//                Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_SHORT).show();
+                SearchRecentSuggestions(this@TickerSearchActivity, TickerSearchSuggestionProvider.AUTHORITY, TickerSearchSuggestionProvider.MODE).saveRecentQuery(query,null)
                 return true
             }
         })
         return true
     }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (Intent.ACTION_SEARCH == intent?.action) {
+            intent.getStringExtra(SearchManager.QUERY)?.also { query ->
+                responseList.removeAll(responseList)
+                searchRes(tokensList, query ?: "")
+            }
+        }
+    }
 }
+//TODO: Coroutine does not work properly when utilizing suggested lists, etc.

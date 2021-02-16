@@ -13,8 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <provider
+            android:name=".TickerSearchSuggestionProvider"
+            android:authorities="ca.sog.SOG.TickerSearchSuggestionProvider" />
         <activity android:name=".OptionsSearchActivity"></activity>
-        <activity android:name=".TickerSearchActivity">
+        <activity android:name=".TickerSearchActivity"
+                    android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
