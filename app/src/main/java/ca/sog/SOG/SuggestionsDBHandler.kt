@@ -3,6 +3,7 @@ package ca.sog.SOG
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import java.io.File
@@ -17,7 +18,7 @@ class SuggestionsDBHandler(context: Context) : SQLiteOpenHelper(context, DATABAS
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
-        TODO("Not yet implemented")
+        //DO NOTHING
     }
 
     fun checkDatabase(): Boolean {
@@ -29,14 +30,18 @@ class SuggestionsDBHandler(context: Context) : SQLiteOpenHelper(context, DATABAS
         val sortOrder = "${col_date} DESC"
         val projection = arrayOf(col_query)
         var res: String? = null;
-        val sugDB = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY)
-        val cursor:  Cursor = sugDB.query(tableName, projection, null, null, null, null, sortOrder)
-        if (cursor.count> 0) {
-            Log.d("TICKERSEARCH", "DATA retrieved success")
-            if (cursor.moveToFirst()) {
-                res = cursor.getString((cursor.getColumnIndex(col_query)))
+        try {
+            val sugDB = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY)
+            val cursor:  Cursor = sugDB.query(tableName, projection, null, null, null, null, sortOrder)
+            if (cursor.count> 0) {
+                if (cursor.moveToFirst()) {
+                    res = cursor.getString((cursor.getColumnIndex(col_query)))
+                }
+                cursor.close()
             }
-            cursor.close()
+        }
+        catch (err: SQLiteException) {
+            res = null
         }
         return res
     }
