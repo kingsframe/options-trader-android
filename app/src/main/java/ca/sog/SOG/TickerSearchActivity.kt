@@ -40,6 +40,13 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
         tickerAdapter = TickerAdapter(responseList, this)
         tickerRecycleView.adapter = tickerAdapter
         //supportActionBar?.title = "Select Underlying Stock"
+
+        val sugDB = SuggestionsDBHandler(this)
+        val recentSuggestion = sugDB.getMostRecentSuggestion()
+
+        if (recentSuggestion != null) {
+            searchRes(tokensList, recentSuggestion)
+        }
     }
 
 
@@ -116,4 +123,3 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
         }
     }
 }
-//TODO: Coroutine does not work properly when utilizing suggested lists, etc.

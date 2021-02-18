@@ -10,5 +10,4 @@ class TickerSearchSuggestionProvider : SearchRecentSuggestionsProvider() {
         const val AUTHORITY = "ca.sog.SOG.TickerSearchSuggestionProvider"
         const val MODE: Int = SearchRecentSuggestionsProvider.DATABASE_MODE_QUERIES
     }
-
 }
