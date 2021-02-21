@@ -78,6 +78,5 @@ class OptionsSearchActivity : AppCompatActivity(), OnExpirationDateClickListener
         })
 
         supportActionBar?.title = "Select expiry date for $symbolName"
-        optionSymbolID.text = symbolId.toString()
     }
 }
