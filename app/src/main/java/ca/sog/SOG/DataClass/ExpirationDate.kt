@@ -1,7 +1,10 @@
 package ca.sog.SOG.DataClass
 
+import java.time.LocalDate
+import java.util.*
+
 data class ExpirationDate(
-        val expiryDate: String,
+        val expiryDate: Date,
         val description: String,
         val listingExchange: String,
         val optionExerciseType: String,
