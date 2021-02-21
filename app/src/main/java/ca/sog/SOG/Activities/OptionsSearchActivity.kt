@@ -3,6 +3,7 @@ package ca.sog.SOG.Activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import ca.sog.SOG.Classes.Tokens
 import ca.sog.SOG.DataClass.ExpirationDate
 import ca.sog.SOG.ExpirationDateAdapter
 import ca.sog.SOG.OnExpirationDateClickListener
@@ -35,17 +36,12 @@ class OptionsSearchActivity : AppCompatActivity(), OnExpirationDateClickListener
         val expirationDatesAdapter = ExpirationDateAdapter(expirationDatesList, this)
         expirationDatesRecycleView.adapter = expirationDatesAdapter
 
-
         val symbolId = intent.extras?.getInt("symbolId")
         val symbolName = intent.extras?.getString("symbolName")
-        val tokensList = intent.extras?.getStringArrayList("tokens") ?: ArrayList<String>()
+        //val tokensList = intent.extras?.getStringArrayList("tokens") ?: ArrayList<String>()
 
-        val access_token = tokensList[0]
-        val refresh_token = tokensList[1]
-        val token_type = tokensList[2]
-        val expires_in = tokensList[3]
-        val api_server = tokensList[4]
-
+        val access_token = Tokens.accessToken
+        val api_server = Tokens.apiServer
 
         val client = OkHttpClient()
         val request = Request.Builder()
