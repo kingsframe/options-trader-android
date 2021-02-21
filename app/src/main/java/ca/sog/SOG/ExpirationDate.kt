@@ -1,6 +1,6 @@
 package ca.sog.SOG
 
-data class OptionChain(
+data class ExpirationDate(
         val expiryDate: String,
         val description: String,
         val listingExchange: String,

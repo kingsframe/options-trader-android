@@ -1,5 +1,6 @@
 package ca.sog.SOG
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,10 +16,22 @@ import java.util.ArrayList
 //"symbol": "TSM",
 //"symbolId": 38052,
 
-class OptionsSearchActivity : AppCompatActivity() {
+class OptionsSearchActivity : AppCompatActivity(), OnExpirationDateClickListener {
+    override fun onItemClicked(expiryDate: String) {
+        TODO("Not yet implemented")
+//        val intent = Intent(this, TickerSearchActivity::class.java)
+//        intent.putExtra("accountNumber", accountNumber)
+//        startActivity(intent);
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_options_search)
+
+        //setup recycler view
+        val expirationDatesList = mutableListOf<ExpirationDate>()
+        val expirationDatesAdapter = ExpirationDateAdapter(expirationDatesList, this)
+        expirationDatesRecycleView.adapter = expirationDatesAdapter
+
 
         val symbolId = intent.extras?.getInt("symbolId")
         val symbolName = intent.extras?.getString("symbolName")
@@ -52,20 +65,17 @@ class OptionsSearchActivity : AppCompatActivity() {
                         responseBodyJson = JSONObject(responseBodyString)
                         val optionChainJsonList = responseBodyJson.getJSONArray("optionChain")
                         val gson = GsonBuilder().create()
-                        val optionChainArray = gson.fromJson(optionChainJsonList.toString(), Array<OptionChain>::class.java)
+                        val optionChainArray = gson.fromJson(optionChainJsonList.toString(), Array<ExpirationDate>::class.java)
                         Log.d("json", optionChainArray.toString())
+                        expirationDatesList.addAll(optionChainArray.toCollection(mutableListOf()))
 
-//                        this@TickerSearchActivity.runOnUiThread(kotlinx.coroutines.Runnable {
-//                            responseList.addAll(tickersArray.toCollection(mutableListOf()))
-//                            tickerAdapter.notifyDataSetChanged()
-//                        }) //update the recyclerView
-                        //create option date object and Recycle adapter and then notify createOption changed
+                        this@OptionsSearchActivity.runOnUiThread(kotlinx.coroutines.Runnable {
+                            expirationDatesAdapter.notifyDataSetChanged()
+                        })
                     }
                 }
             }
         })
-
-
 
         supportActionBar?.title = "Select expiry date for $symbolName"
         optionSymbolID.text = symbolId.toString()

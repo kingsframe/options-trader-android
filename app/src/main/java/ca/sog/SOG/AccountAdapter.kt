@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: OnItemClickListener_old): RecyclerView.Adapter<AccountAdapter.AccountViewHolder>() {
+class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: OnItemClickListener_old)
+    : RecyclerView.Adapter<AccountAdapter.AccountViewHolder>() {
 
     inner class AccountViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val accNumber: TextView
