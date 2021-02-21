@@ -1,4 +1,4 @@
-package ca.sog.SOG
+package ca.sog.SOG.Classes
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.content.ContextCompat.startActivity
+import ca.sog.SOG.Activities.TickerSearchActivity
 
 class QuestAuthWebViewClient(private val context: Context) : WebViewClient() {
 

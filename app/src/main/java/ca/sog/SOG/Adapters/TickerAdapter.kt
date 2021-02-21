@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ca.sog.SOG.DataClass.Ticker
 
 class TickerAdapter(var tickers: List<Ticker>, val itemClickListener: OnItemClickListener): RecyclerView.Adapter<TickerAdapter.TickerViewHolder>() {
 

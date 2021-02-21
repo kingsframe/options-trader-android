@@ -14,10 +14,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <provider
-            android:name=".TickerSearchSuggestionProvider"
-            android:authorities="ca.sog.SOG.TickerSearchSuggestionProvider" />
-        <activity android:name=".OptionsSearchActivity"></activity>
-        <activity android:name=".TickerSearchActivity"
+            android:name=".Classes.TickerSearchSuggestionProvider"
+            android:authorities="ca.sog.SOG.Classes.TickerSearchSuggestionProvider" />
+        <activity android:name=".Activities.OptionsSearchActivity"></activity>
+        <activity android:name=".Activities.TickerSearchActivity"
                     android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -30,8 +30,8 @@
             android:name=".AccountsActivity"
             android:label="@string/title_activity_accounts"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StartLogInActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.StartLogInActivity" />
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

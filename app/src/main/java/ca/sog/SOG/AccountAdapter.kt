@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ca.sog.SOG.DataClass.QuestAccount
 
 class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: OnItemClickListener_old)
     : RecyclerView.Adapter<AccountAdapter.AccountViewHolder>() {

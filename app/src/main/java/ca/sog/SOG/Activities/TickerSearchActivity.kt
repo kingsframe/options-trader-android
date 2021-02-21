@@ -1,4 +1,4 @@
-package ca.sog.SOG
+package ca.sog.SOG.Activities
 
 import android.app.SearchManager
 import android.content.Context
@@ -6,10 +6,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.SearchRecentSuggestions
-import android.util.Log
 import android.view.Menu
 import android.widget.SearchView
-import android.widget.Toast
+import ca.sog.SOG.*
+import ca.sog.SOG.Classes.SuggestionsDBHandler
+import ca.sog.SOG.Classes.TickerSearchSuggestionProvider
+import ca.sog.SOG.DataClass.Ticker
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_accounts.*
 import kotlinx.android.synthetic.main.activity_ticker_search.*
@@ -18,7 +20,7 @@ import org.json.JSONObject
 import java.io.IOException
 
 
-class TickerSearchActivity : AppCompatActivity(), OnItemClickListener{
+class TickerSearchActivity : AppCompatActivity(), OnItemClickListener {
     lateinit var responseList : MutableList<Ticker>
     lateinit var tickerAdapter : TickerAdapter
     lateinit var tokensList : ArrayList<String>

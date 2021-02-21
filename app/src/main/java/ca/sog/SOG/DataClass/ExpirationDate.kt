@@ -1,4 +1,4 @@
-package ca.sog.SOG
+package ca.sog.SOG.DataClass
 
 data class ExpirationDate(
         val expiryDate: String,

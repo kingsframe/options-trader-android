@@ -1,4 +1,4 @@
-package ca.sog.SOG
+package ca.sog.SOG.Classes
 
 import android.content.Context
 import android.database.Cursor

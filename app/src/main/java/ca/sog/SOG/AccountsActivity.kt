@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import ca.sog.SOG.Activities.TickerSearchActivity
+import ca.sog.SOG.DataClass.QuestAccount
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import okio.IOException

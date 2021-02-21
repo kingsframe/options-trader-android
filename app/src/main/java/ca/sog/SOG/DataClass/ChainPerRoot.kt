@@ -1,4 +1,4 @@
-package ca.sog.SOG
+package ca.sog.SOG.DataClass
 
 data class ChainPerRoot(
         val optionRoot: String,
