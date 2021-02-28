@@ -11,6 +11,7 @@ import android.widget.SearchView
 import ca.sog.SOG.*
 import ca.sog.SOG.Classes.SuggestionsDBHandler
 import ca.sog.SOG.Classes.TickerSearchSuggestionProvider
+import ca.sog.SOG.Classes.Tokens
 import ca.sog.SOG.DataClass.Ticker
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_accounts.*
@@ -23,21 +24,21 @@ import java.io.IOException
 class TickerSearchActivity : AppCompatActivity(), OnItemClickListener {
     lateinit var responseList : MutableList<Ticker>
     lateinit var tickerAdapter : TickerAdapter
-    lateinit var tokensList : ArrayList<String>
+    //lateinit var tokensList : ArrayList<String>
 
     override fun onItemClicked(symbolId: Int, symbolName: String) {
         val intent = Intent(this, OptionsSearchActivity::class.java)
         intent.putExtra("symbolId", symbolId)
         intent.putExtra("symbolName", symbolName)
-        intent.putExtra("tokens", tokensList)
+        //intent.putExtra("tokens", tokensList)
         startActivity(intent);
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ticker_search)
-        val tokenBundle = intent.extras
-        tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
+        //val tokenBundle = intent.extras
+        //tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
         responseList = mutableListOf<Ticker>()
         tickerAdapter = TickerAdapter(responseList, this)
         tickerRecycleView.adapter = tickerAdapter
@@ -47,17 +48,15 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener {
         val recentSuggestion = sugDB.getMostRecentSuggestion()
 
         if (recentSuggestion != null) {
-            searchRes(tokensList, recentSuggestion)
+            //searchRes(tokensList, recentSuggestion)
+            searchRes(recentSuggestion)
         }
     }
 
 
-    fun searchRes(tokensList : ArrayList<String>, query : String){
-        val access_token = tokensList[0]
-        val refresh_token = tokensList[1]
-        val token_type = tokensList[2]
-        val expires_in = tokensList[3]
-        val api_server = tokensList[4]
+    fun searchRes(query : String){
+        val access_token = Tokens.accessToken
+        val api_server = Tokens.apiServer
 
         val client = OkHttpClient()
         val request = Request.Builder()
@@ -107,7 +106,7 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 responseList.removeAll(responseList)
-                searchRes(tokensList, query ?: "")
+                searchRes(query ?: "")
                 SearchRecentSuggestions(this@TickerSearchActivity, TickerSearchSuggestionProvider.AUTHORITY, TickerSearchSuggestionProvider.MODE).saveRecentQuery(query,null)
                 return true
             }
@@ -120,7 +119,7 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener {
         if (Intent.ACTION_SEARCH == intent?.action) {
             intent.getStringExtra(SearchManager.QUERY)?.also { query ->
                 responseList.removeAll(responseList)
-                searchRes(tokensList, query ?: "")
+                searchRes(query ?: "")
             }
         }
     }
