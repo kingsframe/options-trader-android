@@ -1,8 +1,10 @@
 package ca.sog.SOG.Activities
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.RequiresApi
 import ca.sog.SOG.Classes.Tokens
 import ca.sog.SOG.DataClass.ExpirationDate
 import ca.sog.SOG.ExpirationDateAdapter
@@ -14,19 +16,21 @@ import kotlinx.android.synthetic.main.activity_options_search.*
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
-import java.util.ArrayList
+import java.util.*
 
 //TODO we are given in bundle:
 //"symbol": "TSM",
 //"symbolId": 38052,
 
 class OptionsSearchActivity : AppCompatActivity(), OnExpirationDateClickListener {
-    override fun onItemClicked(expiryDate: String) {
+    override fun onItemClicked(expiryDate: Date) {
         TODO("Not yet implemented")
 //        val intent = Intent(this, TickerSearchActivity::class.java)
 //        intent.putExtra("accountNumber", accountNumber)
 //        startActivity(intent);
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_options_search)

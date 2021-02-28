@@ -1,11 +1,14 @@
 package ca.sog.SOG
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import ca.sog.SOG.DataClass.ExpirationDate
+import java.util.*
 
 class ExpirationDateAdapter(var expirationDates: List<ExpirationDate>, val itemClickListener: OnExpirationDateClickListener)
     : RecyclerView.Adapter<ExpirationDateAdapter.ExpirationDateViewHolder>() {
@@ -17,7 +20,7 @@ class ExpirationDateAdapter(var expirationDates: List<ExpirationDate>, val itemC
             expirationDate = itemView.findViewById(R.id.expirationDate)
         }
 
-        fun bind(accountNumber: String, clickListener: OnExpirationDateClickListener){
+        fun bind(accountNumber: Date, clickListener: OnExpirationDateClickListener){
             itemView.setOnClickListener{
                 clickListener.onItemClicked(accountNumber)
             }
@@ -30,8 +33,15 @@ class ExpirationDateAdapter(var expirationDates: List<ExpirationDate>, val itemC
     }
 
     override fun onBindViewHolder(holder: ExpirationDateViewHolder, position: Int) {
-        holder.expirationDate.text = expirationDates[position].expiryDate
-        holder.bind(expirationDates[position].expiryDate, itemClickListener)       //have a dedicated button
+
+        //val date =  SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(expirationDates[position].expiryDate.toString()).toString()
+        //val formattedDate = SimpleDateFormat("MMM dd, yyyy", Locale.US).format(date)
+        //holder.expirationDate.text = formattedDate
+        //holder.bind(formattedDate, itemClickListener)       //have a dedicated button
+
+        val date = expirationDates[position].expiryDate
+        holder.expirationDate.text = date.toString()
+        holder.bind(date, itemClickListener)       //have a dedicated button
     }
 
     override fun getItemCount(): Int {
@@ -41,5 +51,5 @@ class ExpirationDateAdapter(var expirationDates: List<ExpirationDate>, val itemC
 }
 
 interface OnExpirationDateClickListener{
-    fun onItemClicked(expiryDate: String)
+    fun onItemClicked(expiryDate: Date)
 }
