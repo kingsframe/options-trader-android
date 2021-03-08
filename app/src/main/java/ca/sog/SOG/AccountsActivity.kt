@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import ca.sog.SOG.Activities.TickerSearchActivity
+import ca.sog.SOG.Classes.ApiCaller
 import ca.sog.SOG.DataClass.QuestAccount
 import com.google.gson.GsonBuilder
 import okhttp3.*
@@ -17,6 +18,9 @@ import kotlin.collections.ArrayList
 import kotlin.collections.mutableListOf as mutableListOf
 
 class AccountsActivity : AppCompatActivity(), OnItemClickListener_old {
+
+    lateinit var Api_Caller : ApiCaller
+    lateinit var responseBodyJson: JSONObject
 
     override fun onItemClicked(accountNumber: String) {
         val intent = Intent(this, TickerSearchActivity::class.java)
@@ -43,45 +47,56 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener_old {
         val accountsAdapter = AccountAdapter(responseAccountsList, this)
         accountsRecycleView.adapter = accountsAdapter
 
-        val tokenBundle = intent.extras
-        val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
-        val access_token = tokensList[0]
-        val refresh_token = tokensList[1]
-        val token_type = tokensList[2]
-        val expires_in = tokensList[3]
-        val api_server = tokensList[4]
+//        val tokenBundle = intent.extras
+//        val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
+//        val access_token = tokensList[0]
+//        val refresh_token = tokensList[1]
+//        val token_type = tokensList[2]
+//        val expires_in = tokensList[3]
+//        val api_server = tokensList[4]
 
 //        GET /v1/accounts HTTP/1.1
 //        Host: https://api01.iq.questrade.com
 //        Authorization: Bearer C3lTUKuNQrAAmSD/TPjuV/HI7aNrAwDp
-        val client = OkHttpClient()
-        val request = Request.Builder()
-                .url(api_server + "v1/accounts")
-                .header("Authorization", "Bearer $access_token")
-                .build()
-        lateinit var responseBodyJson: JSONObject
+//        val client = OkHttpClient()
+//        val request = Request.Builder()
+//                .url(api_server + "v1/accounts")
+//                .header("Authorization", "Bearer $access_token")
+//                .build()
+//        lateinit var responseBodyJson: JSONObject
+//
+//        client.newCall(request).enqueue(object: Callback {
+//
+//            override fun onFailure(call: Call, e: IOException) {
+//                e.printStackTrace()
+//            }
+//
+//            override fun onResponse(call: Call, response: Response) {
+//                response.use {
+//                    if (response.isSuccessful) {
+//                        val responseBody = response.body
+//                        val responseBodyString = responseBody?.string() ?: "NULL"
+//                        responseBodyJson = JSONObject(responseBodyString)
+//                        val accountsJSONlist = responseBodyJson.getJSONArray("accounts") //User may have more than 1 account! want to select them all here
+//                        val gson = GsonBuilder().create()
+//                        val responseAccountsArray = gson.fromJson(accountsJSONlist.toString(), Array<QuestAccount>::class.java)
+//                        responseAccountsList.addAll(responseAccountsArray.toCollection(mutableListOf()))
+//
+//                        this@AccountsActivity.runOnUiThread(Runnable { accountsAdapter.notifyDataSetChanged() })
+//                    }
+//                }
+//            }
+//        })
+        val path = "\"v1/accounts\""
+        Api_Caller = ApiCaller(path)
 
-        client.newCall(request).enqueue(object: Callback {
+        responseBodyJson = Api_Caller.responseJson
+        val accountsJSONlist = responseBodyJson.getJSONArray("accounts") //User may have more than 1 account! want to select them all here
+        val gson = GsonBuilder().create()
+        val responseAccountsArray = gson.fromJson(accountsJSONlist.toString(), Array<QuestAccount>::class.java)
+        responseAccountsList.addAll(responseAccountsArray.toCollection(mutableListOf()))
 
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
+        this@AccountsActivity.runOnUiThread(Runnable { accountsAdapter.notifyDataSetChanged() })
 
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (response.isSuccessful) {
-                        val responseBody = response.body
-                        val responseBodyString = responseBody?.string() ?: "NULL"
-                        responseBodyJson = JSONObject(responseBodyString)
-                        val accountsJSONlist = responseBodyJson.getJSONArray("accounts") //User may have more than 1 account! want to select them all here
-                        val gson = GsonBuilder().create()
-                        val responseAccountsArray = gson.fromJson(accountsJSONlist.toString(), Array<QuestAccount>::class.java)
-                        responseAccountsList.addAll(responseAccountsArray.toCollection(mutableListOf()))
-
-                        this@AccountsActivity.runOnUiThread(Runnable { accountsAdapter.notifyDataSetChanged() })
-                    }
-                }
-            }
-        })
     }
 }
