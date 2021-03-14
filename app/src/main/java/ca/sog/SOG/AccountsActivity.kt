@@ -47,17 +47,18 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener_old {
         val accountsAdapter = AccountAdapter(responseAccountsList, this)
         accountsRecycleView.adapter = accountsAdapter
 
-//        val tokenBundle = intent.extras
-//        val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
-//        val access_token = tokensList[0]
-//        val refresh_token = tokensList[1]
-//        val token_type = tokensList[2]
-//        val expires_in = tokensList[3]
-//        val api_server = tokensList[4]
+        val tokenBundle = intent.extras
+        val tokensList = tokenBundle?.getStringArrayList("tokens") ?: ArrayList<String>()
+        val access_token = tokensList[0]
+        val refresh_token = tokensList[1]
+        val token_type = tokensList[2]
+        val expires_in = tokensList[3]
+        val api_server = tokensList[4]
 
 //        GET /v1/accounts HTTP/1.1
 //        Host: https://api01.iq.questrade.com
 //        Authorization: Bearer C3lTUKuNQrAAmSD/TPjuV/HI7aNrAwDp
+
 //        val client = OkHttpClient()
 //        val request = Request.Builder()
 //                .url(api_server + "v1/accounts")
@@ -87,10 +88,11 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener_old {
 //                }
 //            }
 //        })
-        val path = "\"v1/accounts\""
-        Api_Caller = ApiCaller(path)
 
-        responseBodyJson = Api_Caller.responseJson
+        val path = "v1/accounts"
+        Api_Caller = ApiCaller(path, "accounts")
+
+        responseBodyJson = Api_Caller.responseJson!!
         val accountsJSONlist = responseBodyJson.getJSONArray("accounts") //User may have more than 1 account! want to select them all here
         val gson = GsonBuilder().create()
         val responseAccountsArray = gson.fromJson(accountsJSONlist.toString(), Array<QuestAccount>::class.java)

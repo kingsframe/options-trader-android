@@ -1,19 +1,22 @@
 package ca.sog.SOG.Classes
 
 import okhttp3.*
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class ApiCaller(path : String) {
+class ApiCaller(path: String, jsonName: String) {
     var access_token : String = Tokens.accessToken
     var api_server : String = Tokens.apiServer
-    lateinit var responseJson: JSONObject
+    var responseJson: JSONObject? = null
+    lateinit var responseBodyJson : JSONObject
+    lateinit var jsonList: JSONArray
 
     init {
-        makeApiCall(path)
+        makeApiCall(path, jsonName)
     }
 
-    fun makeApiCall(path : String)  {
+    fun makeApiCall(path: String, jsonName: String): JSONArray {
         val client = OkHttpClient()
         val request = Request.Builder()
                 .url(api_server + path)
@@ -31,10 +34,12 @@ class ApiCaller(path : String) {
                         val responseBody = response.body
                         val responseBodyString = responseBody?.string() ?: "NULL"
                         responseJson = JSONObject(responseBodyString)
+                        jsonList = responseBodyJson.getJSONArray(jsonName)
                     }
                 }
             }
         })
+        return jsonList
     }
 }
 
