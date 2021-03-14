@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import ca.sog.SOG.Classes.Tokens
 import ca.sog.SOG.DataClass.ExpirationDate
@@ -24,7 +25,8 @@ import java.util.*
 
 class OptionsSearchActivity : AppCompatActivity(), OnExpirationDateClickListener {
     override fun onItemClicked(expiryDate: Date) {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
+        Toast.makeText(applicationContext, "$expiryDate was clicked", Toast.LENGTH_SHORT).show()
 //        val intent = Intent(this, TickerSearchActivity::class.java)
 //        intent.putExtra("accountNumber", accountNumber)
 //        startActivity(intent);

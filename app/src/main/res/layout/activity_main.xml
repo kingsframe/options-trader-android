@@ -9,9 +9,13 @@
 
     <Button
         android:id="@+id/LogInButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="#4CAF50"
         android:text="Log In"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -29,19 +33,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.194"
-        tools:src="@drawable/questrade" />
+        android:src="@drawable/questrade" />
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="555dp"
         android:layout_height="407dp"
         android:layout_marginTop="573dp"
+        android:background="#FFFFFF"
+        android:src="@drawable/qtmtns"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.312"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.445"
-        tools:src="@drawable/qtmtns" />
+        app:layout_constraintVertical_bias="0.445" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
