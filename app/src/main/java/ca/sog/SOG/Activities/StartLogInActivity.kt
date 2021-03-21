@@ -1,8 +1,10 @@
-package ca.sog.SOG
+package ca.sog.SOG.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebView
+import ca.sog.SOG.Classes.QuestAuthWebViewClient
+import ca.sog.SOG.R
 
 class StartLogInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

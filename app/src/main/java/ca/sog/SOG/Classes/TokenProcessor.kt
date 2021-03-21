@@ -1,4 +1,4 @@
-package ca.sog.SOG
+package ca.sog.SOG.Classes
 
 class TokenProcessor(val url: String?) { //initializer list
     //Use obj.variable to grab these

@@ -1,4 +1,4 @@
-package ca.sog.SOG
+package ca.sog.SOG.Classes
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.content.ContextCompat.startActivity
+import ca.sog.SOG.Activities.TickerSearchActivity
+
+lateinit var Tokens : TokenProcessor
 
 class QuestAuthWebViewClient(private val context: Context) : WebViewClient() {
 
@@ -15,15 +18,18 @@ class QuestAuthWebViewClient(private val context: Context) : WebViewClient() {
             // The redirect from quest trade is a dummy url www.example.com. If that is not the case, continue
             return false
         }
+
         // quest trade will redirect us back to www.example.com/params, we will use token processor here
-        val tokens = TokenProcessor(url)
-        val tokenBundle = Bundle()
-        tokenBundle.putStringArrayList("tokens", tokens.getArray())
+        Tokens = TokenProcessor(url)
 
-        val startLoggedInActivityIntent = Intent(context, AccountsActivity::class.java)
-        startLoggedInActivityIntent.putExtras(tokenBundle)
-        startActivity(context, startLoggedInActivityIntent, tokenBundle)
+        //val tokenBundle = Bundle()
+        //tokenBundle.putStringArrayList("tokens", tokens.getArray())
 
+        val startLoggedInActivityIntent = Intent(context, TickerSearchActivity::class.java)
+        //startLoggedInActivityIntent.putExtras(tokenBundle)
+
+        //startActivity(context, startLoggedInActivityIntent, tokenBundle)
+        startActivity(context, startLoggedInActivityIntent, Bundle()) //null bundle
         return true
     }
 

@@ -5,8 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ca.sog.SOG.DataClass.QuestAccount
 
-class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: OnItemClickListener): RecyclerView.Adapter<AccountAdapter.AccountViewHolder>() {
+class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: OnItemClickListener_old)
+    : RecyclerView.Adapter<AccountAdapter.AccountViewHolder>() {
 
     inner class AccountViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val accNumber: TextView
@@ -18,7 +20,7 @@ class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: On
             accStatus = itemView.findViewById(R.id.accountStatus)
         }
 
-        fun bind(accountNumber: String, clickListener: OnItemClickListener){
+        fun bind(accountNumber: String, clickListener: OnItemClickListener_old){
             itemView.setOnClickListener{
                 clickListener.onItemClicked(accountNumber)
             }
@@ -42,6 +44,6 @@ class AccountAdapter(var accounts: List<QuestAccount>, val itemClickListener: On
     }
 }
 
-interface OnItemClickListener{
+interface OnItemClickListener_old{
     fun onItemClicked(accountNumber: String)
 }

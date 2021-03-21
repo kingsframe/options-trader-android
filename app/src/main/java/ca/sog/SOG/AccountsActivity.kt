@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import ca.sog.SOG.Activities.TickerSearchActivity
+import ca.sog.SOG.DataClass.QuestAccount
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import okio.IOException
@@ -14,13 +16,13 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.mutableListOf as mutableListOf
 
-class AccountsActivity : AppCompatActivity(), OnItemClickListener {
+class AccountsActivity : AppCompatActivity(), OnItemClickListener_old {
 
     var access_token = ""
     var api_server = ""
 
     override fun onItemClicked(accountNumber: String) {
-        val intent = Intent(this, PositionsActivity::class.java)
+        val intent = Intent(this, TickerSearchActivity::class.java)
         intent.putExtra("accountNumber", accountNumber)
         intent.putExtra("access_token", access_token)
         intent.putExtra("api_server", api_server)
@@ -28,7 +30,7 @@ class AccountsActivity : AppCompatActivity(), OnItemClickListener {
     }
 
     private fun onFabClicked() {
-        val intent = Intent(this, SearchSymbolActivity::class.java)
+        val intent = Intent(this, TickerSearchActivity::class.java)
         startActivity(intent);
     }
 
