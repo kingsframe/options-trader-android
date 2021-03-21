@@ -9,9 +9,11 @@ import android.provider.SearchRecentSuggestions
 import android.view.Menu
 import android.widget.SearchView
 import ca.sog.SOG.*
+import ca.sog.SOG.Classes.ApiCaller
 import ca.sog.SOG.Classes.SuggestionsDBHandler
 import ca.sog.SOG.Classes.TickerSearchSuggestionProvider
 import ca.sog.SOG.Classes.Tokens
+import ca.sog.SOG.DataClass.QuestAccount
 import ca.sog.SOG.DataClass.Ticker
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_accounts.*
@@ -25,6 +27,9 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener {
     lateinit var responseList : MutableList<Ticker>
     lateinit var tickerAdapter : TickerAdapter
     //lateinit var tokensList : ArrayList<String>
+
+    lateinit var Api_Caller : ApiCaller
+    lateinit var responseBodyJson: JSONObject
 
     override fun onItemClicked(symbolId: Int, symbolName: String) {
         val intent = Intent(this, OptionsSearchActivity::class.java)
@@ -55,41 +60,55 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener {
 
 
     fun searchRes(query : String){
-        val access_token = Tokens.accessToken
-        val api_server = Tokens.apiServer
+//        val access_token = Tokens.accessToken
+//        val api_server = Tokens.apiServer
+//
+//        val client = OkHttpClient()
+//        val request = Request.Builder()
+//            .url(api_server + "v1/symbols/search?prefix=" + query)
+//            .header("Authorization", "Bearer $access_token")
+//            .build()
+//        lateinit var responseBodyJson: JSONObject
+//
+//        client.newCall(request).enqueue(object: Callback {
+//
+//            override fun onFailure(call: Call, e: IOException) {
+//                e.printStackTrace()
+//            }
+//
+//            override fun onResponse(call: Call, response: Response) {
+//                response.use {
+//                    if (response.isSuccessful) {
+//                        val responseBody = response.body
+//                        val responseBodyString = responseBody?.string() ?: "NULL"
+//                        responseBodyJson = JSONObject(responseBodyString)
+//                        val tickersJsonList = responseBodyJson.getJSONArray("symbols")
+//                        val gson = GsonBuilder().create()
+//                        val tickersArray = gson.fromJson(tickersJsonList.toString(), Array<Ticker>::class.java)
+//
+//                        this@TickerSearchActivity.runOnUiThread(kotlinx.coroutines.Runnable {
+//                            responseList.addAll(tickersArray.toCollection(mutableListOf()))
+//                            tickerAdapter.notifyDataSetChanged()
+//                        }) //update the recyclerView
+//                        //create option date object and Recycle adapter and then notify createOption changed
+//                    }
+//                }
+//            }
+//        })
 
-        val client = OkHttpClient()
-        val request = Request.Builder()
-            .url(api_server + "v1/symbols/search?prefix=" + query)
-            .header("Authorization", "Bearer $access_token")
-            .build()
-        lateinit var responseBodyJson: JSONObject
+        val path = "v1/symbols/search?prefix=$query"
+        Api_Caller = ApiCaller(path, "symbols")
 
-        client.newCall(request).enqueue(object: Callback {
+        responseBodyJson = Api_Caller.responseJson!!
+        //val tickersJsonList = responseBodyJson.getJSONArray("symbols")
+        val gson = GsonBuilder().create()
+        val tickersArray = gson.fromJson(responseBodyJson.toString(), Array<Ticker>::class.java)
+        //responseList.addAll(tickersArray.toCollection(mutableListOf()))
 
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (response.isSuccessful) {
-                        val responseBody = response.body
-                        val responseBodyString = responseBody?.string() ?: "NULL"
-                        responseBodyJson = JSONObject(responseBodyString)
-                        val tickersJsonList = responseBodyJson.getJSONArray("symbols")
-                        val gson = GsonBuilder().create()
-                        val tickersArray = gson.fromJson(tickersJsonList.toString(), Array<Ticker>::class.java)
-
-                        this@TickerSearchActivity.runOnUiThread(kotlinx.coroutines.Runnable {
-                            responseList.addAll(tickersArray.toCollection(mutableListOf()))
-                            tickerAdapter.notifyDataSetChanged()
-                        }) //update the recyclerView
-                        //create option date object and Recycle adapter and then notify createOption changed
-                    }
-                }
-            }
-        })
+        this@TickerSearchActivity.runOnUiThread(kotlinx.coroutines.Runnable {
+            responseList.addAll(tickersArray.toCollection(mutableListOf()))
+            tickerAdapter.notifyDataSetChanged()
+        }) //update the recyclerView //create option date object and Recycle adapter and then notify createOption changed
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
