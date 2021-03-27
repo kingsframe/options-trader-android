@@ -21,7 +21,7 @@ Sample JSON response
 		"description":   "BANK OF MONTREAL",
 		"listingExchange":   "MX",
 		"optionExerciseType":   "American",
-`		"chainPerRoot": [
+		"chainPerRoot": [
 		    {
 			"root":   "BMO",
 			"chainPerStrikePrice": [
@@ -44,7 +44,7 @@ Sample JSON response
 				],
 		       	"multiplier":   100
 		      }
-	       ]`
+	       ]
         }
      ]
 }
