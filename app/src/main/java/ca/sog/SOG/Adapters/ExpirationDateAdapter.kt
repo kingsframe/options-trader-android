@@ -1,11 +1,12 @@
 package ca.sog.SOG
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import ca.sog.SOG.DataClass.ChainPerRoot
 import ca.sog.SOG.DataClass.ExpirationDate
 import java.util.*
 
@@ -14,16 +15,14 @@ class ExpirationDateAdapter(var expirationDates: List<ExpirationDate>, val itemC
 
     inner class ExpirationDateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val expirationDate: TextView
-        val chainPerRoot: TextView
 
         init {
             expirationDate = itemView.findViewById(R.id.expirationDate)
-            chainPerRoot = itemView.findViewById(R.id.chainPerRoot)
         }
 
-        fun bind(expiryDate: Date, chainPerRoot: Array<ChainPerRoot>, clickListener: OnExpirationDateClickListener){
+        fun bind(accountNumber: Date, clickListener: OnExpirationDateClickListener){
             itemView.setOnClickListener{
-                clickListener.onItemClicked(expiryDate, chainPerRoot)
+                clickListener.onItemClicked(accountNumber)
             }
         }
     }
@@ -35,10 +34,14 @@ class ExpirationDateAdapter(var expirationDates: List<ExpirationDate>, val itemC
 
     override fun onBindViewHolder(holder: ExpirationDateViewHolder, position: Int) {
 
+        //val date =  SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(expirationDates[position].expiryDate.toString()).toString()
+        //val formattedDate = SimpleDateFormat("MMM dd, yyyy", Locale.US).format(date)
+        //holder.expirationDate.text = formattedDate
+        //holder.bind(formattedDate, itemClickListener)       //have a dedicated button
+
         val date = expirationDates[position].expiryDate
-        val chain = expirationDates[position].chainPerRoot
         holder.expirationDate.text = date.toString()
-        holder.bind(date, chain, itemClickListener)       //have a dedicated button
+        holder.bind(date, itemClickListener)       //have a dedicated button
     }
 
     override fun getItemCount(): Int {
@@ -48,5 +51,5 @@ class ExpirationDateAdapter(var expirationDates: List<ExpirationDate>, val itemC
 }
 
 interface OnExpirationDateClickListener{
-    fun onItemClicked(expiryDate: Date, chainPerRoot: Array<ChainPerRoot>)
+    fun onItemClicked(expiryDate: Date)
 }
