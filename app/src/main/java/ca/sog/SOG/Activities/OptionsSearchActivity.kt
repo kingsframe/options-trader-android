@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import ca.sog.SOG.Classes.Tokens
+import ca.sog.SOG.DataClass.ChainPerRoot
 import ca.sog.SOG.DataClass.ExpirationDate
 import ca.sog.SOG.ExpirationDateAdapter
 import ca.sog.SOG.OnExpirationDateClickListener
@@ -24,12 +25,18 @@ import java.util.*
 //"symbolId": 38052,
 
 class OptionsSearchActivity : AppCompatActivity(), OnExpirationDateClickListener {
-    override fun onItemClicked(expiryDate: Date) {
-        //TODO("Not yet implemented")
-        Toast.makeText(applicationContext, "$expiryDate was clicked", Toast.LENGTH_SHORT).show()
+//    fun onItemClicked(expiryDate: Date, chainPerRoot: ChainPerRoot) {
+//        //TODO("Not yet implemented")
+//        Toast.makeText(applicationContext, "$expiryDate was clicked", Toast.LENGTH_SHORT).show()
 //        val intent = Intent(this, TickerSearchActivity::class.java)
 //        intent.putExtra("accountNumber", accountNumber)
 //        startActivity(intent);
+//    }
+
+    override fun onItemClicked(expiryDate: Date, chainPerRoot: Array<ChainPerRoot>) {
+        TODO("Not yet implemented")
+        Log.d("TAG", "chainPerRoot: $chainPerRoot")
+        Toast.makeText(applicationContext, "$expiryDate was clicked", Toast.LENGTH_SHORT).show()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -84,4 +91,6 @@ class OptionsSearchActivity : AppCompatActivity(), OnExpirationDateClickListener
 
         supportActionBar?.title = "Select expiry date for $symbolName"
     }
+
+
 }
