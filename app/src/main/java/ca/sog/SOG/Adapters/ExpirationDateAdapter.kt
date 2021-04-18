@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import ca.sog.SOG.DataClass.ChainPerRoot
 import ca.sog.SOG.DataClass.ExpirationDate
 import java.util.*
 
@@ -20,9 +21,9 @@ class ExpirationDateAdapter(var expirationDates: List<ExpirationDate>, val itemC
             expirationDate = itemView.findViewById(R.id.expirationDate)
         }
 
-        fun bind(accountNumber: Date, clickListener: OnExpirationDateClickListener){
+        fun bind(optionChain: Array<ChainPerRoot>, clickListener: OnExpirationDateClickListener){
             itemView.setOnClickListener{
-                clickListener.onItemClicked(accountNumber)
+                clickListener.onItemClicked(optionChain)
             }
         }
     }
@@ -33,15 +34,11 @@ class ExpirationDateAdapter(var expirationDates: List<ExpirationDate>, val itemC
     }
 
     override fun onBindViewHolder(holder: ExpirationDateViewHolder, position: Int) {
-
-        //val date =  SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(expirationDates[position].expiryDate.toString()).toString()
-        //val formattedDate = SimpleDateFormat("MMM dd, yyyy", Locale.US).format(date)
-        //holder.expirationDate.text = formattedDate
-        //holder.bind(formattedDate, itemClickListener)       //have a dedicated button
-
         val date = expirationDates[position].expiryDate
         holder.expirationDate.text = date.toString()
-        holder.bind(date, itemClickListener)       //have a dedicated button
+
+        val optionChain = expirationDates[position].chainPerRoot
+        holder.bind(optionChain, itemClickListener)       //have a dedicated button
     }
 
     override fun getItemCount(): Int {
@@ -51,5 +48,5 @@ class ExpirationDateAdapter(var expirationDates: List<ExpirationDate>, val itemC
 }
 
 interface OnExpirationDateClickListener{
-    fun onItemClicked(expiryDate: Date)
+    fun onItemClicked(optionChain : Array<ChainPerRoot>)
 }

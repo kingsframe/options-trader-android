@@ -1,5 +1,6 @@
 package ca.sog.SOG.Activities
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import ca.sog.SOG.Classes.Tokens
+import ca.sog.SOG.DataClass.ChainPerRoot
 import ca.sog.SOG.DataClass.ExpirationDate
 import ca.sog.SOG.ExpirationDateAdapter
 import ca.sog.SOG.OnExpirationDateClickListener
@@ -23,13 +25,17 @@ import java.util.*
 //"symbol": "TSM",
 //"symbolId": 38052,
 
-class OptionsSearchActivity : AppCompatActivity(), OnExpirationDateClickListener {
-    override fun onItemClicked(expiryDate: Date) {
-        //TODO("Not yet implemented")
-        Toast.makeText(applicationContext, "$expiryDate was clicked", Toast.LENGTH_SHORT).show()
-//        val intent = Intent(this, TickerSearchActivity::class.java)
-//        intent.putExtra("accountNumber", accountNumber)
-//        startActivity(intent);
+class ExpDateActivity : AppCompatActivity(), OnExpirationDateClickListener {
+    override fun onItemClicked(optionChain : Array<ChainPerRoot>) {
+        val intent = Intent(this, OptionsChainActivity::class.java)
+
+        Toast.makeText(applicationContext, optionChain[0].optionRoot, Toast.LENGTH_SHORT).show()
+        Log.d("optionChain", optionChain[0].optionRoot)
+
+        //intent.putExtra("optionChain", optionChain) //TODO must parcelize or else we can't actually retrieve this (getParcelable)
+        //BUG breaks when passed; could this be because non-parcelable??
+
+        startActivity(intent);
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -70,11 +76,11 @@ class OptionsSearchActivity : AppCompatActivity(), OnExpirationDateClickListener
                         responseBodyJson = JSONObject(responseBodyString)
                         val optionChainJsonList = responseBodyJson.getJSONArray("optionChain")
                         val gson = GsonBuilder().create()
-                        val optionChainArray = gson.fromJson(optionChainJsonList.toString(), Array<ExpirationDate>::class.java)
+                        val optionChainArray = gson.fromJson(optionChainJsonList.toString(), Array<ExpirationDate>::class.java) //Contains ChainPerRoot
                         Log.d("json", optionChainArray.toString())
                         expirationDatesList.addAll(optionChainArray.toCollection(mutableListOf()))
 
-                        this@OptionsSearchActivity.runOnUiThread(kotlinx.coroutines.Runnable {
+                        this@ExpDateActivity.runOnUiThread(kotlinx.coroutines.Runnable {
                             expirationDatesAdapter.notifyDataSetChanged()
                         })
                     }

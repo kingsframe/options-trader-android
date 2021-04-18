@@ -27,7 +27,7 @@ class TickerSearchActivity : AppCompatActivity(), OnItemClickListener {
     //lateinit var tokensList : ArrayList<String>
 
     override fun onItemClicked(symbolId: Int, symbolName: String) {
-        val intent = Intent(this, OptionsSearchActivity::class.java)
+        val intent = Intent(this, ExpDateActivity::class.java)
         intent.putExtra("symbolId", symbolId)
         intent.putExtra("symbolName", symbolName)
         //intent.putExtra("tokens", tokensList)

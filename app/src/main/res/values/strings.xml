@@ -11,4 +11,8 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_positions">PositionsActivity</string>
     <string name="search_hint">SOGgy</string>
+
+    <string name="calls">Calls</string>
+    <string name="puts">Puts</string>
+
 </resources>
